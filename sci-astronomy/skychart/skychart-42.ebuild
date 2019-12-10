@@ -12,7 +12,7 @@ SRC_URI="https://github.com/pchev/${PN}/archive/V${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-IUSE="+data doc nonfree cat1 cat2"
+IUSE="+data nonfree cat1 cat2"
 
 DEPEND="
 	dev-lang/fpc
@@ -38,7 +38,7 @@ src_compile() {
 src_install() {
 
 	emake -j1 PREFIX="${D}/usr" install
-	for u in doc data nonfree cat1 cat2; do
+	for u in data nonfree cat1 cat2; do
 	    if use $u; then
 	        emake -j1 PREFIX="${D}/usr" install_$u
 	    fi
