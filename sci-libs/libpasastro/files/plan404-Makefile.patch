@@ -1,0 +1,10 @@
+--- libpasastro-1.1/plan404/Makefile.old	2018-03-04 14:16:51.000000000 +0100
++++ libpasastro-1.1/plan404/Makefile	2019-12-10 13:30:53.756428682 +0100
+@@ -40,6 +40,7 @@
+ all: $(SO_Name)
+ 
+ $(OBJ_DIR)/%.o: %.c
++	mkdir -p $(OBJ_DIR)
+ 	$(CC) $(CFLAGS) -c $< -o $@
+ 
+ $(SO_Name): $(OBJ)
