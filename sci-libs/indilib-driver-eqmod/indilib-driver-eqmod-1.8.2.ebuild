@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 
 DEPEND="
 	sci-libs/indilib
-	sci-libs/nova
+	sci-libs/libnova
 	sci-libs/gsl
 	sys-libs/zlib
 	virtual/pkgconfig
