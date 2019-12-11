@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 IUSE=""
 
 DEPEND="
-	system-libs/zlib
+	sys-libs/zlib
 	sci-libs/libnova
 	virtual/libusb
 	x11-libs/wxGTK:3.0
