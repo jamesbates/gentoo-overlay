@@ -21,7 +21,6 @@ DEPEND="
 	x11-libs/wxGTK:3.0
 	net-misc/curl
 	sci-libs/libasi
-	sci-libs/libtoupcam
 "
 RDEPEND="${DEPEND}"
 BDEPEND=""
