@@ -8,6 +8,9 @@ inherit eutils cmake-utils
 DESCRIPTION="PHD2 Autoguiding software"
 HOMEPAGE=""
 SRC_URI="https://github.com/OpenPHDGuiding/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+PATCHES=(
+	"${FILESDIR}"/phd2-system-libtoupcam.patch
+)
 
 LICENSE="GPL-2+"
 SLOT="0"
@@ -21,6 +24,7 @@ DEPEND="
 	x11-libs/wxGTK:3.0
 	net-misc/curl
 	sci-libs/libasi
+	sci-libs/libtoupcap
 "
 RDEPEND="${DEPEND}"
 BDEPEND=""

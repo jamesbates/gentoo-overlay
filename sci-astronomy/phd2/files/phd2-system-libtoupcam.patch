@@ -1,0 +1,18 @@
+--- phd-2.6.6/thirdparty/thirdparty.cmake.old	2019-03-24 19:50:39.000000000 +0100
++++ phd-2.6.6/thirdparty/thirdparty.cmake	2019-12-11 17:29:45.676337327 +0100
+@@ -1268,7 +1268,6 @@
+     find_library(toupcam
+                  NAMES toupcam
+                  NO_DEFAULT_PATHS
+-                 NO_CMAKE_SYSTEM_PATH
+                  PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/linux/${toupcam_arch})
+     if(NOT toupcam)
+       message(FATAL_ERROR "Cannot find the toupcam drivers")
+@@ -1276,7 +1275,6 @@
+     message(STATUS "Found toupcam lib ${toupcam}")
+     add_definitions(-DHAVE_TOUPTEK_CAMERA=1)
+     set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${toupcam})
+-    set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${toupcam})
+ 
+     if(IS_DIRECTORY ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
+       add_definitions(-DHAVE_QHY_CAMERA=1)
