@@ -22,6 +22,7 @@ RDEPEND="
 	${DEPEND}
 	sci-libs/indilib
 	sci-libs/libpasastro
+	media-gfx/dcraw
 "
 BDEPEND=""
 
