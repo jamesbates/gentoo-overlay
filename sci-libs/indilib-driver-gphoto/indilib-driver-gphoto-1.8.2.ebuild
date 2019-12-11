@@ -23,7 +23,7 @@ DEPEND="
 	virtual/jpeg
 	virtual/pkgconfig
 	media-libs/libraw
-	dev-libs/libusb:1
+	virtual/libusb
 	media-libs/tiff
 "
 RDEPEND="${DEPEND}"
