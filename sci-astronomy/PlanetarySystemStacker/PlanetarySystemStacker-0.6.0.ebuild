@@ -19,7 +19,7 @@ DEPEND="
 	media-libs/opencv
 	dev-python/psutil
 	sci-libs/scikits_image
-	sci-libs/mkl
+	sci-libs/mkl-rt
 "
 RDEPEND="${DEPEND}"
 BDEPEND=""
