@@ -6,7 +6,7 @@ EAPI=6
 # this could be a multiple python package
 # but the way it is packaged makes it very time consuming.
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_7 )
 
 inherit eutils toolchain-funcs python-single-r1
 
@@ -57,7 +57,7 @@ src_prepare() {
 	sed -e "s|-lm|-lm $($(tc-getPKG_CONFIG) --libs wcslib gsl)|" \
 		-i util/Makefile || die
 	export SYSTEM_GSL=yes
-	sed 's#env python$#env python2#' -i bin/* || die
+#	sed 's#env python$#env python2#' -i bin/* || die
 }
 
 src_compile() {
