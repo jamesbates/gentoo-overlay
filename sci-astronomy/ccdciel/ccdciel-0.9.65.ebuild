@@ -23,6 +23,7 @@ RDEPEND="
 	sci-libs/indilib
 	sci-libs/libpasastro
 	media-gfx/dcraw
+	sci-astronomy/astrometry
 "
 BDEPEND=""
 
