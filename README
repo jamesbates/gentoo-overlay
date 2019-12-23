@@ -34,7 +34,7 @@ You can now add/update/remove the programs of your choice, as you would any othe
 
   emerge phd2 ccdciel indilib-driver-asi
 
-The builds are all keyworded as experimental (i.e. ~amd64), so you'll likely have to add them to your
+The ebuilds are all keyworded as experimental (i.e. ~amd64), so you'll likely have to add them to your
 /etc/portage/package.keywords
 
 
