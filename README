@@ -19,7 +19,7 @@ How to use it
 -------------
 On a runnig Gentoo system, install layman:
 
-  sudo emerge layman
+  emerge layman
 
 Next, copy the file jamesbates.xml in the repository to your /etc/layman/overlays directory:
 
@@ -28,11 +28,11 @@ Next, copy the file jamesbates.xml in the repository to your /etc/layman/overlay
 
 Finally, apply the overlay using layman
 
-  sudo layman -a jamesbates
+  layman -a jamesbates
 
 You can now add/update/remove the programs of your choice, as you would any other Gentoo programs, e.g.:
 
-  sudo emerge phd2 ccdciel indilib-driver-asi
+  emerge phd2 ccdciel indilib-driver-asi
 
 The builds are all keyworded as experimental (i.e. ~amd64), so you'll likely have to add them to your
 /etc/portage/package.keywords
