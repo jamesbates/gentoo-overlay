@@ -1,0 +1,44 @@
+James Bates' astronomy overlay
+==============================
+
+This Gentoo overlay contains ebuild scripts for some useful Astronomy programs, including:
+
+- phd2
+- indistarter
+- eqmodgui
+- ccdciel
+- skychart
+
+It also contains some 3rd party INDI drivers, such as:
+
+- indi_asi_ccd
+- indi_gphoto_ccd
+- indi_eqmod_telescope
+
+How to use it
+-------------
+On a runnig Gentoo system, install layman:
+
+  sudo emerge layman
+
+Next, copy the file jamesbates.xml in the repository to your /etc/layman/overlays directory:
+
+  mkdir -p /etc/layman/overlays
+  curl -o /etc/layman/overlays/jamesbates.xml https://raw.githubusercontent.com/jamesbates/gentoo-overlay/master/jamesbates.xml
+
+Finally, apply the overlay using layman
+
+  sudo layman -a jamesbates
+
+You can now add/update/remove the programs of your choice, as you would any other Gentoo programs, e.g.:
+
+  sudo emerge phd2 ccdciel indilib-driver-asi
+
+Contact
+-------
+These ebuilds are provided as is, in the hope they might be useful to you. No warranty of any kind is provided. For any questions & feedback,
+please open a github issue at https://github.com/jamesbates/gentoo-overlay/issues
+
+Clear skies!
+James
+

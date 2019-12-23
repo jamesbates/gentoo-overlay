@@ -1,0 +1,14 @@
+<repositories xmlns="" version="1.0">
+<repo quality="experimental" status="official">
+        <name>jamesbates</name>
+        <description>James Bates' overlay</description>
+        <homepage>https://github.com/jamesbates/gentoo-overlay</homepage>
+        <owner type="project">
+                <email>james.h.bates@gmail.com</email>
+                <name>James Bates</name>
+        </owner>
+        <source type="git">https://github.com/jamesbates/gentoo-overlay.git</source>
+</repo>
+</repositories>
+
+
