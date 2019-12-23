@@ -34,6 +34,10 @@ You can now add/update/remove the programs of your choice, as you would any othe
 
   sudo emerge phd2 ccdciel indilib-driver-asi
 
+The builds are all keyworded as experimental (i.e. ~amd64), so you'll likely have to add them to your
+/etc/portage/package.keywords
+
+
 Contact
 -------
 These ebuilds are provided as is, in the hope they might be useful to you. No warranty of any kind is provided. For any questions & feedback,
