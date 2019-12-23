@@ -16,3 +16,13 @@
  
      if(IS_DIRECTORY ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
        add_definitions(-DHAVE_QHY_CAMERA=1)
+@@ -1306,7 +1306,7 @@
+     ${libopenssag_dir}/openssag.h
+     )
+   add_library(OpenSSAG ${libOPENSSAG_SRC})
+-  target_link_libraries(OpenSSAG openphd_libusb)
++  target_link_libraries(OpenSSAG)
+   target_include_directories(OpenSSAG PRIVATE ${thirdparty_dir}/${LIBOPENSSAG}/src)
+   set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} OpenSSAG)
+   set_property(TARGET OpenSSAG PROPERTY FOLDER "Thirdparty/")
+
