@@ -9,7 +9,8 @@ This Gentoo overlay contains ebuild scripts for some useful Astronomy programs, 
 - ccdciel
 - skychart
 
-It also contains some 3rd party INDI drivers, such as:
+It also contains the 3rd party INDI drivers from https://github.com/indilib/indi-3rdparty.
+This includes drivers such as:
 
 - indi_asi_ccd
 - indi_gphoto_ccd
@@ -32,10 +33,16 @@ Finally, apply the overlay using layman
 
 You can now add/update/remove the programs of your choice, as you would any other Gentoo programs, e.g.:
 
-  emerge phd2 ccdciel indilib-driver-asi
+  emerge phd2 ccdciel eqmodgui
 
 The ebuilds are all keyworded as experimental (i.e. ~amd64), so you'll likely have to add them to your
 /etc/portage/package.keywords
+
+By default, all 3rd party drivers available are installed when you emerge sci-libs/indilib-3rdparty. You can limit
+the drivers you want by defining the variable INDI_DRIVERS in your /etc/portage/make.conf. For example:
+
+INDI_DRIVERS="asicam toupbase eqmod gphoto"
+
 
 
 Contact
