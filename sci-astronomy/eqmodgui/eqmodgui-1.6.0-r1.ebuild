@@ -20,7 +20,7 @@ DEPEND="
 "
 RDEPEND="
 	${DEPEND}
-	sci-libs/indilib-driver-eqmod
+	sci-libs/indilib-3rdparty[indi_drivers_eqmod]
 "
 BDEPEND=""
 

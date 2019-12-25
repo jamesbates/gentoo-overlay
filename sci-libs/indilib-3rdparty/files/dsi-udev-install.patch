@@ -1,0 +1,11 @@
+--- indi-3rdparty-1.8.2/indi-dsi/CMakeLists.txt.orig	2019-12-25 20:01:35.354934671 +0100
++++ indi-3rdparty-1.8.2/indi-dsi/CMakeLists.txt	2019-12-25 20:01:50.473039561 +0100
+@@ -8,7 +8,7 @@
+ IF(APPLE)
+ set(FIRMWARE_INSTALL_DIR "/usr/local/lib/indi/DriverSupport/dsi")
+ ELSE(APPLE)
+-set(RULES_INSTALL_DIR "/etc/udev/rules.d")
++set(RULES_INSTALL_DIR "/lib/udev/rules.d")
+ set(FIRMWARE_INSTALL_DIR "/lib/firmware")
+ ENDIF()
+ set (DSI_VERSION_MAJOR 0)
