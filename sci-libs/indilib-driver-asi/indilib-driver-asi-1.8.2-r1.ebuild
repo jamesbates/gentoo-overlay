@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 
 DEPEND="
 	sci-libs/indilib
-	sci-libs/libasi
+	sci-libs/indilib-3rdparty-libs[indi_drivers_asicam]
 	virtual/libusb
 	sci-libs/cfitsio
 	sys-libs/zlib

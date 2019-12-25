@@ -23,8 +23,7 @@ DEPEND="
 	virtual/libusb
 	x11-libs/wxGTK:3.0
 	net-misc/curl
-	sci-libs/libasi
-	sci-libs/libtoupcam
+	sci-libs/indilib-3rdparty[indi_driver_asicam,indi_driver_toupbase]
 	sci-libs/cfitsio
 	sci-libs/indilib
 	virtual/libusb
