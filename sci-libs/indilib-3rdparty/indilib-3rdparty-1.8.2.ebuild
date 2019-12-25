@@ -83,7 +83,7 @@ DEPEND="
 	indi_drivers_mgen? ( sci-libs/cfitsio dev-embedded/libftdi:1 sys-libs/zlib >=virtual/libusb-1 )
 	indi_drivers_mi? ( sci-libs/cfitsio >=virtual/libusb-1 )
 	indi_drivers_nexdome? ( sci-libs/libnova sys-libs/zlib )
-	indi_drivers_nightscape? ( sci-libs/cfitsio >=vierual/libusb-1 dev-embedded/libftdi:1 )
+	indi_drivers_nightscape? ( sci-libs/cfitsio >=virtual/libusb-1 dev-embedded/libftdi:1 )
 	indi_drivers_nse? ( sci-libs/libnova sci-libs/gsl sys-libs/zlib )
 	indi_drivers_qhy? ( sci-libs/indilib-3rdparty-libs[indi_drivers_qhy] sci-libs/cfitsio sys-libs/zlib >=virtual/libusb-1 )
 	indi_drivers_qsi? ( sci-libs/indilib-3rdparty-libs[indi_drivers_qsi] sci-libs/cfitsio sys-libs/zlib )
