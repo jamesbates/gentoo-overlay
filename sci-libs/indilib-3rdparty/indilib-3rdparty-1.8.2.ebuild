@@ -98,7 +98,7 @@ DEPEND="
 	indi_drivers_webcam? ( virtual/ffmpeg sys-libs/zlib sci-libs/cfitsio )
 	!sci-libs/indilib-driver-asi
 	!sci-libs/indilib-driver-eqmod
-	!sci-libs/indilib-gphoto
+	!sci-libs/indilib-driver-gphoto
 "
 RDEPEND="${DEPEND}"
 
