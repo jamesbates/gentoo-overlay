@@ -117,7 +117,7 @@ indi_drivers_config() {
 src_configure() {
 	local mycmakeargs=(
 		$(indi_drivers_config)
-		-DRULES_INSTALL_DIR="$(get_udevdir)"
+		-DRULES_INSTALL_DIR="$(get_udevdir)"/rules.d
 		-Wno-dev
 	)
 
