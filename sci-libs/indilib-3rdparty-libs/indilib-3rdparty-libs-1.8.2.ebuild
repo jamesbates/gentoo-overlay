@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils eutils
+inherit cmake-utils eutils udev
 
 DESCRIPTION="INDIlib 3rdparty driver library dependencies"
 HOMEPAGE="http://www.indilib.org/"
