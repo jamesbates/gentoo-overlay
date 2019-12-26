@@ -57,7 +57,7 @@ src_configure() {
 	local mycmakeargs=(
 		$(indi_drivers_config)
 		-DBUILD_LIBS=ON
-		-DUDEVRULES_INSTALL_DIR=/lib/udev.d/rules
+		-DUDEVRULES_INSTALL_DIR="$(get_udevdir)"
 	)
 
 	cmake-utils_src_configure
