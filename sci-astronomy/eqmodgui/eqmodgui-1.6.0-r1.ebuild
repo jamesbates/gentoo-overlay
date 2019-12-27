@@ -17,6 +17,7 @@ IUSE=""
 DEPEND="
 	dev-lang/fpc
 	>=dev-lang/lazarus-1.8.4-r2
+	media-libs/sdl-mixer
 "
 RDEPEND="
 	${DEPEND}
