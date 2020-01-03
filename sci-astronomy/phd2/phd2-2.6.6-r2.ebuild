@@ -9,7 +9,7 @@ DESCRIPTION="PHD2 Autoguiding software"
 HOMEPAGE=""
 SRC_URI="https://github.com/OpenPHDGuiding/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 PATCHES=(
-	"${FILESDIR}"/phd2-system-libtoupcam.patch
+	"${FILESDIR}"/phd2-system-cameras.patch
 )
 
 LICENSE="GPL-2+"
@@ -23,7 +23,7 @@ DEPEND="
 	virtual/libusb
 	x11-libs/wxGTK:3.0
 	net-misc/curl
-	sci-libs/indilib-3rdparty-libs[indi_drivers_asicam,indi_drivers_toupbase]
+	sci-libs/indilib-3rdparty-libs[indi_drivers_asicam,indi_drivers_toupbase,indi_drivers_sbig]
 	sci-libs/cfitsio
 	sci-libs/indilib
 	virtual/libusb
@@ -41,6 +41,7 @@ src_configure() {
 		-DUSE_SYSTEM_EIGEN3=true
 		-DUSE_SYSTEM_GTEST=true
 		-DUSE_SYSTEM_LIBINDI=true
+		-DSBIG_SYSTEM=true
 	)
 
 	cmake-utils_src_configure

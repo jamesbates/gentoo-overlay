@@ -1,0 +1,112 @@
+--- virtualplanet-2.0-src/component/glscene/Source/GLUtils.pas.orig	2019-12-28 03:25:35.758085810 +0100
++++ virtualplanet-2.0-src/component/glscene/Source/GLUtils.pas	2019-12-28 03:26:13.092256249 +0100
+@@ -38,7 +38,7 @@
+   {$IFDEF GLS_DELPHI_XE2_UP}
+   System.Classes, System.SysUtils, VCL.Graphics, VCL.Controls, System.UITypes,
+   {$ELSE}
+-  Classes, SysUtils, Graphics, Controls,
++  Classes, SysUtils, Graphics, Controls, LazFileUtils, LazUtf8,
+ {$ENDIF}
+   // GLScene
+   GLVectorGeometry, GLCrossPlatform;
+--- virtualplanet-2.0-src/component/glscene/Source/GLCrossPlatform.pas.orig	2019-12-28 03:23:06.780369555 +0100
++++ virtualplanet-2.0-src/component/glscene/Source/GLCrossPlatform.pas	2019-12-28 03:24:58.985914642 +0100
+@@ -104,7 +104,7 @@
+    Consts,
+ {$ENDIF}
+    Classes, SysUtils, StrUtils, Graphics,  Controls,
+-   Forms,  Dialogs
++   Forms,  Dialogs, LazFileUtils, LazUtf8
+ {$ENDIF}
+ 
+ {$IFDEF FPC}
+--- virtualplanet-2.0-src/component/downloaddialog/downloaddialog.pas.orig	2019-12-28 03:22:10.262080095 +0100
++++ virtualplanet-2.0-src/component/downloaddialog/downloaddialog.pas	2019-12-28 03:20:37.921581757 +0100
+@@ -25,7 +25,7 @@
+ interface
+ 
+ uses
+-  LResources, blcksock, HTTPsend, FTPSend, FileUtil, ssl_openssl,
++  LResources, blcksock, HTTPsend, FTPSend, FileUtil, ssl_openssl, LazFileUtils, LazUtf8,
+   Classes, SysUtils, Dialogs, Buttons, Graphics, Forms, Controls, StdCtrls, ExtCtrls;
+ 
+ type
+--- virtualplanet-2.0-src/vpa/BigIma.pas.orig	2019-12-28 03:30:00.948236219 +0100
++++ virtualplanet-2.0-src/vpa/BigIma.pas	2019-12-28 03:30:21.452320192 +0100
+@@ -27,7 +27,7 @@
+ 
+ uses Math, FileUtil,
+   LCLIntf, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+-  ExtCtrls, StdCtrls, Buttons, ComCtrls, ToolWin, LResources;
++  ExtCtrls, StdCtrls, Buttons, ComCtrls, ToolWin, LResources, LazFileUtils, LazUtf8;
+ 
+ type
+   TBigImaForm = class(TForm)
+--- virtualplanet-2.0-src/vpa/vpa.lpr.orig	2019-12-28 03:33:32.774078594 +0100
++++ virtualplanet-2.0-src/vpa/vpa.lpr	2019-12-28 03:34:01.291188304 +0100
+@@ -9,7 +9,7 @@
+   Interfaces, // this includes the LCL widgetset
+   InterfaceBase, LCLVersion, // version number
+   Forms, Dialogs, avpmain, config, OpenGLAdapter, OpenGLTokens, GLScene_RunTime,
+-  CraterList, dbutil, fmsg, splashunit, SysUtils,
++  CraterList, dbutil, fmsg, splashunit, SysUtils, LCLPlatformDef,
+   TurboPowerIPro, u_constant, cu_tz, cu_planet, u_projection, u_util, pu_planet,
+   u_translation_database, u_translation, uniqueinstance_package, downldialog,
+   BigIma, uDE, mlb2, pu_ephem;
+@@ -32,7 +32,7 @@
+   end;
+   Application.CreateForm(Tf_avpmain, f_avpmain);
+   Application.CreateForm(Tf_craterlist, f_craterlist);
+-  if not f_avpmain.param.Find('-quit',i) then begin
++  if not f_avpmain.isClosing then begin
+       splash := Tsplash.create(application);
+       splash.VersionName:=VersionName;
+       splash.Splashversion:=Splashversion;
+--- virtualplanet-2.0-src/vpa/pu_planet.pas.orig	2019-12-28 03:28:50.782944139 +0100
++++ virtualplanet-2.0-src/vpa/pu_planet.pas	2019-12-28 03:29:18.959062350 +0100
+@@ -33,7 +33,7 @@
+   GLScene, GLMultiMaterialShader, GLBumpShader, GLPhongShader, GLHUDObjects,
+   OpenGLTokens, GLWindowsFont, GLGeomObjects, GLMirror, GLMesh,
+   GLVectorFileObjects, GLShadowVolume, FPImage, FileUtil, LCLType, IntfGraphics,
+-  SysUtils, Classes, Controls, Forms, Menus, Dialogs, Math ;
++  SysUtils, Classes, Controls, Forms, Menus, Dialogs, Math, LazFileUtils, LazUtf8 ;
+ 
+ const
+    MaxLabel=500;
+--- virtualplanet-2.0-src/vpa/u_util.pas.orig	2019-12-28 03:27:30.039597897 +0100
++++ virtualplanet-2.0-src/vpa/u_util.pas	2019-12-28 03:28:09.762769701 +0100
+@@ -34,7 +34,7 @@
+   {$endif}
+     Controls, Process, IntfGraphics,FPImage,
+     MaskEdit,Menus,Spin,CheckLst,Buttons, ExtCtrls,
+-    Forms,Graphics,StdCtrls,ComCtrls,Dialogs,Grids,PrintersDlgs,Printers;
++    Forms,Graphics,StdCtrls,ComCtrls,Dialogs,Grids,PrintersDlgs,Printers,LazFileUtils,LazUtf8;
+ 
+ function rmod(x,y:Double):Double;
+ Function NormRA(ra : double):double;
+--- virtualplanet-2.0-src/vpa/avpmain.pas.orig	2019-12-28 11:07:36.876643771 +0100
++++ virtualplanet-2.0-src/vpa/avpmain.pas	2019-12-28 11:12:30.589230308 +0100
+@@ -502,6 +502,7 @@
+     ForceBumpMapSize: integer;
+     LastScopeTracking: double;
+     UseComputerTime: boolean;
++    isClosing: boolean;
+     procedure Init;
+     Procedure InitNotes;
+     procedure LoadOverlay(fn: string; transparent: single);
+@@ -1356,6 +1357,7 @@
+   buf:  string;
+   x, y: double;
+ begin
++  isClosing := false;
+   try
+     i := 0;
+     while i <= param.Count - 1 do
+@@ -1434,6 +1436,7 @@
+       end
+       else if param[i]='-quit' then
+       begin
++        isClosing := true;
+         Close;  // close current instance
+       end
+       else if param[i] = '--' then

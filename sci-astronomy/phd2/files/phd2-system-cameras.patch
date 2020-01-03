@@ -1,6 +1,22 @@
---- phd-2.6.6/thirdparty/thirdparty.cmake.old	2019-03-24 19:50:39.000000000 +0100
-+++ phd-2.6.6/thirdparty/thirdparty.cmake	2019-12-11 17:29:45.676337327 +0100
-@@ -1268,7 +1268,6 @@
+--- phd2-2.6.6/thirdparty/thirdparty.cmake.orig	2020-01-03 13:45:48.710103723 +0100
++++ phd2-2.6.6/thirdparty/thirdparty.cmake	2020-01-03 13:59:01.832252573 +0100
+@@ -996,12 +996,11 @@
+   add_definitions(-DHAVE_SBIG_CAMERA=1)
+   add_definitions("-DTARGET=7")
+   message(STATUS "Finding SBIG Univeral Drivers on system")
+-  find_path(SBIG_INCLUDE_DIR sbigudrv.h)
+-  find_library(SBIG_LIBRARIES NAMES SBIG)
+-  find_library(SBIGUDRV_LIBRARIES NAMES sbigudrv)
++  find_path(SBIG_INCLUDE_DIR sbigudrv.h PATH_SUFFIXES libsbig)
++  find_library(SBIG_LIBRARIES NAMES sbig)
+   include_directories(${SBIG_INCLUDE_DIR})
+ 
+-  set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} SBIG sbigudrv)
++  set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} sbig)
+ 
+ endif()
+ 
+@@ -1268,7 +1267,6 @@
      find_library(toupcam
                   NAMES toupcam
                   NO_DEFAULT_PATHS
@@ -8,7 +24,7 @@
                   PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/linux/${toupcam_arch})
      if(NOT toupcam)
        message(FATAL_ERROR "Cannot find the toupcam drivers")
-@@ -1276,7 +1275,6 @@
+@@ -1276,7 +1274,6 @@
      message(STATUS "Found toupcam lib ${toupcam}")
      add_definitions(-DHAVE_TOUPTEK_CAMERA=1)
      set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${toupcam})
@@ -16,7 +32,7 @@
  
      if(IS_DIRECTORY ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
        add_definitions(-DHAVE_QHY_CAMERA=1)
-@@ -1306,7 +1306,7 @@
+@@ -1308,7 +1305,7 @@
      ${libopenssag_dir}/openssag.h
      )
    add_library(OpenSSAG ${libOPENSSAG_SRC})
@@ -25,4 +41,3 @@
    target_include_directories(OpenSSAG PRIVATE ${thirdparty_dir}/${LIBOPENSSAG}/src)
    set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} OpenSSAG)
    set_property(TARGET OpenSSAG PROPERTY FOLDER "Thirdparty/")
-
