@@ -44,7 +44,7 @@ src_configure() {
 		-DUSE_SYSTEM_EIGEN3=true
 		-DUSE_SYSTEM_GTEST=true
 		-DUSE_SYSTEM_LIBINDI=true
-		-DUSE=$(usex indi_drivers_asicam ON)
+		-DUSE_ZWO=$(usex indi_drivers_asicam ON)
 		-DUSE_TOUPCAM=$(usex indi_drivers_toupbase ON)
 		-DUSE_QHY=$(usex indi_drivers_qhy ON)
 		-DSBIG_SYSTEM=$(usex indi_drivers_sbig ON)
