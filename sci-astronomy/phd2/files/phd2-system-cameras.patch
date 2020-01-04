@@ -77,3 +77,14 @@
    target_include_directories(OpenSSAG PRIVATE ${thirdparty_dir}/${LIBOPENSSAG}/src)
    set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} OpenSSAG)
    set_property(TARGET OpenSSAG PROPERTY FOLDER "Thirdparty/")
+@@ -1318,7 +1318,9 @@
+   # math library is needed, and should be one of the last things to link to here
+   find_library(mathlib NAMES m)
+   set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${mathlib})
+-
++  if(USE_OPENSSAG)
++    add_definitions(-DOPENSSAG=1)
++  endif()
+ endif()
+ 
+ 

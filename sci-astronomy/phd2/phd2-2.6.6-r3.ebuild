@@ -15,7 +15,7 @@ PATCHES=(
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-IUSE="indi_drivers_asicam indi_drivers_toupbase indi_drivers_qhy indi_drivers_sbig"
+IUSE="indi_drivers_asicam indi_drivers_toupbase indi_drivers_qhy indi_drivers_sbig indi_drivers_ssag"
 
 DEPEND="
 	sys-libs/zlib
@@ -44,6 +44,7 @@ src_configure() {
 		-DUSE_SYSTEM_EIGEN3=true
 		-DUSE_SYSTEM_GTEST=true
 		-DUSE_SYSTEM_LIBINDI=true
+		-DUSE_OPENSSAG=$(usex indi_drivers_ssag ON)
 		-DUSE_ZWO=$(usex indi_drivers_asicam ON)
 		-DUSE_TOUPCAM=$(usex indi_drivers_toupbase ON)
 		-DUSE_QHY=$(usex indi_drivers_qhy ON)
