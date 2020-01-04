@@ -18,7 +18,6 @@ KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 IUSE="indi_drivers_asicam indi_drivers_toupbase indi_drivers_qhy indi_drivers_sbig"
 
 DEPEND="
-    sci-libs/indilib
 	sys-libs/zlib
 	sci-libs/libnova
 	virtual/libusb
