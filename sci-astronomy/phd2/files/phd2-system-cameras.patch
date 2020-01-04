@@ -1,5 +1,5 @@
---- phd2-2.6.6/thirdparty/thirdparty.cmake.orig	2020-01-03 13:45:48.710103723 +0100
-+++ phd2-2.6.6/thirdparty/thirdparty.cmake	2020-01-03 13:59:01.832252573 +0100
+--- phd2-2.6.6/thirdparty/thirdparty.cmake.orig	2020-01-04 10:56:58.270150515 +0100
++++ phd2-2.6.6/thirdparty/thirdparty.cmake	2020-01-04 11:37:11.059203170 +0100
 @@ -996,12 +996,11 @@
    add_definitions(-DHAVE_SBIG_CAMERA=1)
    add_definitions("-DTARGET=7")
@@ -16,7 +16,21 @@
  
  endif()
  
-@@ -1268,7 +1267,6 @@
+@@ -1248,6 +1247,7 @@
+       message(FATAL_ERROR "unknown system architecture")
+     endif()
+ 
++    if(USE_ZWO)
+     find_path(ZWO_INCLUDE_DIR ASICamera2.h
+       NO_DEFAULT_PATHS
+       PATHS ${PHD_PROJECT_ROOT_DIR}/cameras
+@@ -1264,11 +1264,12 @@
+     message(STATUS "Found ASICamera2 lib ${asiCamera2}")
+     add_definitions(-DHAVE_ZWO_CAMERA=1)
+     set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${asiCamera2})
++    endif()
+ 
++    if(USE_TOUPCAM)
      find_library(toupcam
                   NAMES toupcam
                   NO_DEFAULT_PATHS
@@ -24,15 +38,37 @@
                   PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/linux/${toupcam_arch})
      if(NOT toupcam)
        message(FATAL_ERROR "Cannot find the toupcam drivers")
-@@ -1276,7 +1274,6 @@
+@@ -1276,24 +1277,25 @@
      message(STATUS "Found toupcam lib ${toupcam}")
      add_definitions(-DHAVE_TOUPTEK_CAMERA=1)
      set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${toupcam})
 -    set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${toupcam})
++    endif()
  
++    if(USE_QHY)
      if(IS_DIRECTORY ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
        add_definitions(-DHAVE_QHY_CAMERA=1)
-@@ -1308,7 +1305,7 @@
+ 
+       # be careful not to pick up any other qhy lib on the system
+       find_library(qhylib
+-                   NAMES qhy
+-                   NO_DEFAULT_PATH
++                   NAMES qhyccd
++		   NO_DEFAULT_PATHS
+                    PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
+       if(NOT qhylib)
+         message(FATAL_ERROR "Cannot find the qhy SDK libs")
+       endif()
+       set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${qhylib})
+     endif()
++    endif()
+ 
+     # temporarily disable qhy camera pending fix for link error on Ubuntu Trusty
+-    remove_definitions(-DHAVE_QHY_CAMERA=1)
+ 
+   endif()  # OPENSOURCE_ONLY
+ 
+@@ -1308,7 +1310,7 @@
      ${libopenssag_dir}/openssag.h
      )
    add_library(OpenSSAG ${libOPENSSAG_SRC})
