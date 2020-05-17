@@ -62,7 +62,7 @@ IUSE="
 REQUIRED_USE="|| ( $IUSE )"
 
 DEPEND="
-	=sci-libs/indilib-${PV}
+	=sci-libs/indilib-${PVR}
 	virtual/pkgconfig
 	indi_drivers_apogee? ( sci-libs/indilib-3rdparty-libs[indi_drivers_apogee] sci-libs/cfitsio sys-libs/zlib )
 	indi_drivers_asicam? ( sci-libs/indilib-3rdparty-libs[indi_drivers_asicam] sci-libs/cfitsio sys-libs/zlib >=virtual/libusb-1 )
