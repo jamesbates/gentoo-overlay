@@ -23,6 +23,7 @@ IUSE="
 	indi_drivers_qsi
 	indi_drivers_sbig
 	indi_drivers_toupbase
+	indi_drivers_mi
 "
 
 REQUIRED_USE="|| ( $IUSE )"
