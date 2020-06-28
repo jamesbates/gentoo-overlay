@@ -1,3 +1,3 @@
 USE_EXPAND="INDI_DRIVERS"
-INDI_DRIVERS="apogee armadillo asicam astromechfoc atik avalon beefocus cloudwatcher dreamfocuser dsi duino eqmod ffmv fishcamp fli gige gphoto gpsd gpsnmea inovaplx limesdr maxdome mgen mi nexdome nightscape nse pentax qhy qsi rtlsdr sbig shelyak skywalker spectracyber ssag starbook sx toupbase webcam"
+INDI_DRIVERS="ahp_interferometer apogee armadillo asicam astrolink4 astromechfoc atik avalon beefocus cloudwatcher dreamfocuser dsi duino eqmod ffmv fishcamp fli gige gphoto gpsd gpsnmea inovaplx limesdr maxdome mgen mi nexdome nightscape nse pentax qhy qsi rtlsdr sbig shelyak skywalker spectracyber ssag starbook sx talon6 toupbase webcam"
 

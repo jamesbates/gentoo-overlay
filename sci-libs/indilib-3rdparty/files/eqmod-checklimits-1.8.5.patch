@@ -1,0 +1,132 @@
+diff --git a/indi-eqmod/eqmodbase.cpp b/indi-eqmod/eqmodbase.cpp
+index fdd6a52..3399a01 100644
+--- a/indi-eqmod/eqmodbase.cpp
++++ b/indi-eqmod/eqmodbase.cpp
+@@ -162,6 +162,7 @@ EQMod::EQMod()
+     AutohomeState      = AUTO_HOME_IDLE;
+     restartguideRAPPEC = false;
+     restartguideDEPPEC = false;
++    CheckLimits = true;
+ }
+ 
+ EQMod::~EQMod()
+@@ -326,6 +327,7 @@ void EQMod::ISGetProperties(const char *dev)
+         defineNumber(HorizontalCoordNP);
+         defineSwitch(ReverseDECSP);
+         defineSwitch(TargetPierSideSP);
++        defineSwitch(CheckLimitsSP);
+         defineNumber(StandardSyncNP);
+         defineNumber(StandardSyncPointNP);
+         defineNumber(SyncPolarAlignNP);
+@@ -414,6 +416,7 @@ bool EQMod::loadProperties()
+     TrackDefaultSP     = getSwitch("TELESCOPE_TRACK_DEFAULT");
+     ReverseDECSP       = getSwitch("REVERSEDEC");
+     TargetPierSideSP    = getSwitch("TARGETPIERSIDE");
++    CheckLimitsSP       = getSwitch("CHECKLIMITS");
+ 
+     HorizontalCoordNP   = getNumber("HORIZONTAL_COORD");
+     StandardSyncNP      = getNumber("STANDARDSYNC");
+@@ -489,6 +492,7 @@ bool EQMod::updateProperties()
+         defineNumber(HorizontalCoordNP);
+         defineSwitch(ReverseDECSP);
+         defineSwitch(TargetPierSideSP);
++	defineSwitch(CheckLimitsSP);
+         defineNumber(StandardSyncNP);
+         defineNumber(StandardSyncPointNP);
+         defineNumber(SyncPolarAlignNP);
+@@ -653,6 +657,7 @@ bool EQMod::updateProperties()
+         deleteProperty(HorizontalCoordNP->name);
+         deleteProperty(ReverseDECSP->name);
+         deleteProperty(TargetPierSideSP->name);
++	deleteProperty(CheckLimitsSP->name);
+         deleteProperty(StandardSyncNP->name);
+         deleteProperty(StandardSyncPointNP->name);
+         deleteProperty(SyncPolarAlignNP->name);
+@@ -1944,7 +1949,7 @@ bool EQMod::Goto(double r, double d)
+     gotoparams.racurrentencoder = currentRAEncoder;
+     gotoparams.decurrentencoder = currentDEEncoder;
+     gotoparams.completed        = false;
+-    gotoparams.checklimits      = true;
++    gotoparams.checklimits      = CheckLimits;
+     gotoparams.pier_side        = TargetPier;
+     gotoparams.outsidelimits    = false;
+     if (Hemisphere == NORTH)
+@@ -1963,6 +1968,11 @@ bool EQMod::Goto(double r, double d)
+         LOG_WARN("Enforcing the pier side prevents a meridian flip and may lead to collisions of the telescope with obstacles.");
+     }
+ 
++    if (!gotoparams.checklimits)
++    {
++        LOG_WARN("Limits checking disabled, use EXTREME CAUTION!! Watch the mount very carfeully, and abort the slew whenever a collision might occur!");
++    }
++
+     EncoderTarget(&gotoparams);
+ 
+     if (gotoparams.outsidelimits)
+@@ -2864,6 +2874,26 @@ bool EQMod::ISNewSwitch(const char *dev, const char *name, ISState *states, char
+             IDSetSwitch(TargetPierSideSP, nullptr);
+         }
+ 
++        if (!strcmp(name, "CHECKLIMITS"))
++	{
++	    IUUpdateSwitch(CheckLimitsSP, states, names, n);
++
++	    CheckLimitsSP->s = IPS_OK;
++
++	    CheckLimits = (IUFindSwitch(CheckLimitsSP, "ENABLE")->s == ISS_ON);
++
++	    if (!CheckLimits)
++	    {
++	        LOG_WARN("You have disabled limits checking. Use with EXTREME CAUTION!!");
++	    }
++	    else
++	    {
++	        LOG_INFO("Limits checking enabled.");
++	    }
++
++	    IDSetSwitch(CheckLimitsSP, nullptr);
++	}
++
+         //if (MountInformationTP && MountInformationTP->tp && (!strcmp(MountInformationTP->tp[0].text, "EQ8") || !strcmp(MountInformationTP->tp[0].text, "AZEQ6"))) {
+         if (mount->HasHomeIndexers())
+         {
+diff --git a/indi-eqmod/eqmodbase.h b/indi-eqmod/eqmodbase.h
+index 394fcb7..21ff657 100644
+--- a/indi-eqmod/eqmodbase.h
++++ b/indi-eqmod/eqmodbase.h
+@@ -111,6 +111,7 @@ class EQMod : public INDI::Telescope, public INDI::GuiderInterface
+         ISwitchVectorProperty *SyncManageSP        = nullptr;
+         ISwitchVectorProperty *ReverseDECSP        = nullptr;
+         ISwitchVectorProperty *TargetPierSideSP    = nullptr;
++        ISwitchVectorProperty *CheckLimitsSP       = nullptr;
+         INumberVectorProperty *BacklashNP          = nullptr;
+         ISwitchVectorProperty *UseBacklashSP       = nullptr;
+         INumberVectorProperty *LEDBrightnessNP     = nullptr;
+@@ -157,7 +158,7 @@ class EQMod : public INDI::Telescope, public INDI::GuiderInterface
+         } GotoParams;
+ 
+         Hemisphere Hemisphere;
+-        bool RAInverted, DEInverted;
++        bool RAInverted, DEInverted, CheckLimits;
+         TelescopePierSide TargetPier = PIER_UNKNOWN;
+         GotoParams gotoparams;
+         SyncData syncdata, syncdata2;
+diff --git a/indi-eqmod/indi_eqmod_sk.xml b/indi-eqmod/indi_eqmod_sk.xml
+index e7fe17e..aa1c433 100644
+--- a/indi-eqmod/indi_eqmod_sk.xml
++++ b/indi-eqmod/indi_eqmod_sk.xml
+@@ -156,6 +156,14 @@ Off
+ Off
+ </defSwitch>
+ </defSwitchVector>
++<defSwitchVector devide="EQMod Mount" name="CHECKLIMITS" label="Check limits when slewing" group="Main Control" state="Idle" perm="rw" rule="OneOfMany">
++<defSwitch name="ENABLE" label="Enable">
++On
++</defSwitch>
++<defSwitch name="DISABLE" label="Disable (USE WITH EXTREME CARE!!)">
++Off
++</defSwitch>
++</defSwitchVector>
+ <defNumberVector device="EQMod Mount" name="STANDARDSYNC" label="Delta" group="Sync" state="Idle" perm="ro">
+ <defNumber name="STANDARDSYNC_RA" label="Delta RA (hh:mm:ss)" format="%010.6m" min="0.0" max="24.0" step="0.0">
+ 0.0

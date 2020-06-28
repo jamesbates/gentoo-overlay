@@ -9,7 +9,7 @@ DESCRIPTION="INDI driver for the ZWO ASI Cameras"
 HOMEPAGE="http://www.indilib.org/"
 SRC_URI="https://github.com/indilib/indi-3rdparty/archive/v${PV}.tar.gz -> indi-3rdparty-${PV}.tar.gz"
 PATCHES=(
-	"${FILESDIR}"/eqmod-checklimits.patch
+	"${FILESDIR}"/eqmod-checklimits-1.8.5.patch
 	"${FILESDIR}"/findaravis.patch
 	"${FILESDIR}"/dsi-udev-install.patch
 )
@@ -18,9 +18,11 @@ LICENSE="LGPL-2.1+ BSD GPL-2+ LGPL-2+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 IUSE="
+	indi_drivers_ahp_interferometer
 	indi_drivers_apogee
 	indi_drivers_armadillo
 	indi_drivers_asicam
+	indi_drivers_astrolink4
 	indi_drivers_astromechfoc
 	indi_drivers_atik
 	indi_drivers_avalon
@@ -56,6 +58,7 @@ IUSE="
 	indi_drivers_ssag
 	indi_drivers_starbook
 	indi_drivers_sx
+	indi_drivers_talon6
 	indi_drivers_toupbase
 	indi_drivers_webcam
 "
