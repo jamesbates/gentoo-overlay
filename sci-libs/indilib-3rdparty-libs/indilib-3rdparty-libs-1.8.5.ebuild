@@ -19,6 +19,7 @@ IUSE="
 	indi_drivers_fishcamp
 	indi_drivers_fli
 	indi_drivers_inovaplx
+	indi_drivers_pentax
 	indi_drivers_qhy
 	indi_drivers_qsi
 	indi_drivers_sbig

@@ -45,6 +45,7 @@ IUSE="
 	indi_drivers_nexdome
 	indi_drivers_nightscape
 	indi_drivers_nse
+	indi_drivers_pentax
 	indi_drivers_qhy
 	indi_drivers_qsi
 	indi_drivers_rtlsdr
