@@ -119,7 +119,7 @@ index e7fe17e..aa1c433 100644
  Off
  </defSwitch>
  </defSwitchVector>
-+<defSwitchVector devide="EQMod Mount" name="CHECKLIMITS" label="Check limits when slewing" group="Main Control" state="Idle" perm="rw" rule="OneOfMany">
++<defSwitchVector device="EQMod Mount" name="CHECKLIMITS" label="Check limits when slewing" group="Main Control" state="Idle" perm="rw" rule="OneOfMany">
 +<defSwitch name="ENABLE" label="Enable">
 +On
 +</defSwitch>
