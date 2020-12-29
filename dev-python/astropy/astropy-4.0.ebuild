@@ -52,7 +52,7 @@ RDEPEND="
 	>=sci-astronomy/erfa-1.7:0=
 	>=sci-astronomy/wcslib-6:0=
 	>=sci-libs/cfitsio-3.410:0=
-	>=sci-libs/scipy-1.2.0[${PYTHON_USEDEP}]
+	>=dev-python/scipy-1.2.0[${PYTHON_USEDEP}]
 	>=sci-libs/scikits_image-0.14.2[${PYTHON_USEDEP}]
 	sys-libs/zlib:0=
 "
