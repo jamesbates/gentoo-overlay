@@ -13,6 +13,7 @@ LICENSE="LGPL-2.1+ BSD GPL-2+ LGPL-2+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 IUSE="
+	indi_drivers_ahp_correlator
 	indi_drivers_apogee
 	indi_drivers_asicam
 	indi_drivers_atik
@@ -25,6 +26,7 @@ IUSE="
 	indi_drivers_sbig
 	indi_drivers_toupbase
 	indi_drivers_mi
+	indi_drivers_sv305
 "
 
 REQUIRED_USE="|| ( $IUSE )"

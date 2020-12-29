@@ -18,7 +18,7 @@ LICENSE="LGPL-2.1+ BSD GPL-2+ LGPL-2+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 IUSE="
-	indi_drivers_ahp_interferometer
+	indi_drivers_ahp_correlator
 	indi_drivers_apogee
 	indi_drivers_armadillo
 	indi_drivers_asicam
@@ -27,6 +27,7 @@ IUSE="
 	indi_drivers_atik
 	indi_drivers_avalon
 	indi_drivers_beefocus
+	indi_drivers_caux
 	indi_drivers_cloudwatcher
 	indi_drivers_dreamfocuser
 	indi_drivers_dsi
@@ -35,6 +36,7 @@ IUSE="
 	indi_drivers_ffmv
 	indi_drivers_fishcamp
 	indi_drivers_fli
+	indi_drivers_fxload
 	indi_drivers_gige
 	indi_drivers_gphoto
 	indi_drivers_gpsd
@@ -50,13 +52,17 @@ IUSE="
 	indi_drivers_pentax
 	indi_drivers_qhy
 	indi_drivers_qsi
+	indi_drivers_rtlsdro
+	indi_drivers_radiosim
+	indi_drivers_rpicam
+	indi_drivers_rtklib
 	indi_drivers_rtlsdr
 	indi_drivers_sbig
 	indi_drivers_shelyak
 	indi_drivers_skywalker
 	indi_drivers_spectracyber
-	indi_drivers_ssag
 	indi_drivers_starbook
+	indi_drivers_sv305
 	indi_drivers_sx
 	indi_drivers_talon6
 	indi_drivers_toupbase
@@ -68,6 +74,7 @@ REQUIRED_USE="|| ( $IUSE )"
 DEPEND="
 	=sci-libs/indilib-${PVR}
 	virtual/pkgconfig
+	indi_drivers_ahp_correlator? ( sci-libs/indilib-3rdparty-libs[indi_drivers_ahp_correlator] )
 	indi_drivers_apogee? ( sci-libs/indilib-3rdparty-libs[indi_drivers_apogee] sci-libs/cfitsio sys-libs/zlib )
 	indi_drivers_asicam? ( sci-libs/indilib-3rdparty-libs[indi_drivers_asicam] sci-libs/cfitsio sys-libs/zlib >=virtual/libusb-1 )
 	indi_drivers_astromechfoc? ( sys-libs/zlib )
@@ -95,10 +102,10 @@ DEPEND="
 	indi_drivers_sbig? ( sci-libs/indilib-3rdparty-libs[indi_drivers_sbig] sci-libs/cfitsio sys-libs/zlib >=virtual/libusb-1 )
 	indi_drivers_skywalker? ( sci-libs/libnova )
 	indi_drivers_spectracyber? ( sci-libs/libnova )
-	indi_drivers_ssag? ( >=virtual/libusb-1 )
 	indi_drivers_starbook? ( sci-libs/libnova net-misc/curl )
 	indi_drivers_sx? ( sci-libs/cfitsio >=virtual/libusb-1 )
 	indi_drivers_toupbase? ( sci-libs/indilib-3rdparty-libs[indi_drivers_toupbase] sci-libs/cfitsio sys-libs/zlib >=virtual/libusb-1 )
+	indi_drivers_sv305? ( sci-libs/indilib-3rdparty-libs[indi_drivers_sv305] )
 	indi_drivers_webcam? ( virtual/ffmpeg sys-libs/zlib sci-libs/cfitsio )
 	!sci-libs/indilib-driver-asi
 	!sci-libs/indilib-driver-eqmod
