@@ -1,4 +1,4 @@
-sci-astronomy/astrometry python_single_target_python3_6
+=sci-astronomy/astrometry-0.72 python_single_target_python3_6
 =dev-python/astropy-1.3.3-r2 python_targets_python3_6
 dev-python/numpy python_targets_python3_6
 dev-python/fitsio python_targets_python3_6
