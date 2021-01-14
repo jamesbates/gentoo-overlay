@@ -9,7 +9,7 @@ DESCRIPTION="INDIlib 3rd party drrivers"
 HOMEPAGE="http://www.indilib.org/"
 SRC_URI="https://github.com/indilib/indi-3rdparty/archive/v${PV}.tar.gz -> indi-3rdparty-${PV}.tar.gz"
 PATCHES=(
-	"${FILESDIR}"/eqmod-checklimits-1.8.7.patch
+	"${FILESDIR}"/eqmod-checklimits-1.8.8.patch
 	"${FILESDIR}"/findaravis.patch
 	"${FILESDIR}"/dsi-udev-install.patch
 )
