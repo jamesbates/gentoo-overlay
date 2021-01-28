@@ -1,12 +1,12 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 # this could be a multiple python package
 # but the way it is packaged makes it very time consuming.
 
-PYTHON_COMPAT=( python3_6 )
+PYTHON_COMPAT=( python3_{6,7,8,9} )
 
 inherit eutils toolchain-funcs python-single-r1
 
@@ -14,18 +14,19 @@ MYP=${PN}.net-${PV}
 
 DESCRIPTION="Automated astrometric calibration programs and service"
 HOMEPAGE="http://astrometry.net/"
-SRC_URI="https://github.com/dstndstn/astrometry.net/releases/download/${PV}/${MYP}.tar.gz"
+SRC_URI="https://github.com/dstndstn/astrometry.net/archive/${PV}.tar.gz -> astrometry-${PV}.tar.gz"
 
 LICENSE="BSD GPL-2 GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~x86"
 IUSE="examples"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="
-	dev-python/astropy[${PYTHON_USEDEP}]
-	dev-python/fitsio[${PYTHON_USEDEP}]
-	dev-python/numpy[${PYTHON_USEDEP}]
+	$(python_gen_cond_dep '
+	dev-python/astropy[${PYTHON_MULTI_USEDEP}]
+	dev-python/fitsio[${PYTHON_MULTI_USEDEP}]
+	dev-python/numpy[${PYTHON_MULTI_USEDEP}]' )
 	media-libs/libpng:0
 	media-libs/netpbm
 	sci-astronomy/wcslib:0=
@@ -42,10 +43,9 @@ DEPEND="${RDEPEND}
 S="${WORKDIR}/${MYP}"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.67-soname.patch
-	"${FILESDIR}"/${PN}-0.67-qsortr.patch
+	"${FILESDIR}"/${PN}-0.80-soname.patch
+	"${FILESDIR}"/${PN}-0.80-qsortr.patch
 )
-#	"${FILESDIR}"/${PN}-0.72-dynlink.patch
 
 src_prepare() {
 	default
@@ -57,11 +57,12 @@ src_prepare() {
 	sed -e "s|-lm|-lm $($(tc-getPKG_CONFIG) --libs wcslib gsl)|" \
 		-i util/Makefile || die
 	export SYSTEM_GSL=yes
-#	sed 's#env python$#env python2#' -i bin/* || die
 }
 
 src_compile() {
 	tc-export CC RANLIB AR
+	# disable FLAG autoguessing
+	export ARCH_FLAGS=""
 	# fragile makefiles, build targets sequentially
 	emake
 	emake py
@@ -75,23 +76,23 @@ src_test() {
 	for d in util blind libkd; do
 		pushd ${d} > /dev/null
 		./test || die "failed tests in ${d}"
-		popd ${d} > /dev/null
+		popd > /dev/null
 	done
 }
 
 ap_make() {
 	emake \
-		INSTALL_DIR="${ED%/}/usr" \
-		DATA_INSTALL_DIR="${ED%/}/usr/share/astrometry" \
-		LIB_INSTALL_DIR="${ED%/}/usr/$(get_libdir)" \
-		ETC_INSTALL_DIR="${ED%/}/etc" \
-		MAN1_INSTALL_DIR="${ED%/}/usr/share/man/man1" \
-		DOC_INSTALL_DIR="${ED%/}/usr/share/doc/${PF}" \
-		EXAMPLE_INSTALL_DIR="${ED%/}/usr/share/doc/${PF}/examples" \
+		INSTALL_DIR="${ED}/usr" \
+		DATA_INSTALL_DIR="${ED}/usr/share/astrometry" \
+		LIB_INSTALL_DIR="${ED}/usr/$(get_libdir)" \
+		ETC_INSTALL_DIR="${ED}/etc" \
+		MAN1_INSTALL_DIR="${ED}/usr/share/man/man1" \
+		DOC_INSTALL_DIR="${ED}/usr/share/doc/${PF}" \
+		EXAMPLE_INSTALL_DIR="${ED}/usr/share/doc/${PF}/examples" \
 		PY_BASE_INSTALL_DIR="${D}/$(python_get_sitedir)/astrometry" \
 		PY_BASE_LINK_DIR="../$(python_get_sitedir | sed -e 's|/usr/||')/astrometry" \
-		FINAL_DIR="${EPREFIX%/}/usr" \
-		DATA_FINAL_DIR="${EPREFIX%/}/usr/share/astrometry" \
+		FINAL_DIR="${EPREFIX}/usr" \
+		DATA_FINAL_DIR="${EPREFIX}/usr/share/astrometry" \
 		$@
 }
 
@@ -99,6 +100,9 @@ src_install() {
 	ap_make install-core
 	ap_make -C util install
 	ap_make -C blind install-extra
+
+        # byte_compile missing py files
+        python_optimize
 
 	# remove duplicates and non installable libraries
 	# cfitsio

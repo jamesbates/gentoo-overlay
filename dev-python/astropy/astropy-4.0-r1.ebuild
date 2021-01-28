@@ -53,7 +53,6 @@ RDEPEND="
 	>=sci-astronomy/wcslib-6:0=
 	>=sci-libs/cfitsio-3.410:0=
 	>=dev-python/scipy-1.2.0[${PYTHON_USEDEP}]
-	>=sci-libs/scikits_image-0.14.2[${PYTHON_USEDEP}]
 	sys-libs/zlib:0=
 "
 DEPEND="
