@@ -122,12 +122,17 @@ pkg_setup() {
 	if has_version --host-root dev-java/openjdk:${SLOT}; then
 		export JDK_HOME=${EPREFIX}/usr/$(get_libdir)/openjdk-${SLOT}
 	else
-		if [[ ${MERGE_TYPE} != "binary" ]]; then
-			JDK_HOME=$(best_version --host-root dev-java/openjdk-bin:${SLOT})
-			[[ -n ${JDK_HOME} ]] || die "Build VM not found!"
-			JDK_HOME=${JDK_HOME#*/}
-			JDK_HOME=${EPREFIX}/opt/${JDK_HOME%-r*}
-			export JDK_HOME
+		if has_version --host-root dev-java/openjdk:${PREVSLOT}; then
+			export JDK_HOME=${EPREFIX}/use/$(get_libdir)/openjdk-${PREVSLOT}
+		else
+			if [[ ${MERGE_TYPE} != "binary" ]]; then
+				JDK_HOME=$(best_version --host-root dev-java/openjdk-bin:${SLOT})
+				[[ -n ${JDK_HOME} ]] || JDK_HOME=$(best_version --host-root dev-java/openjdk-bin:${PREVSLOT})
+				[[ -n ${JDK_HOME} ]] || die "Build VM not found!"
+				JDK_HOME=${JDK_HOME#*/}
+				JDK_HOME=${EPREFIX}/opt/${JDK_HOME%-r*}
+				export JDK_HOME
+			fi
 		fi
 	fi
 }
