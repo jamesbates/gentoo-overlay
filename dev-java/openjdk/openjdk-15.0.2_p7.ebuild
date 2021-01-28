@@ -123,7 +123,7 @@ pkg_setup() {
 		export JDK_HOME=${EPREFIX}/usr/$(get_libdir)/openjdk-${SLOT}
 	else
 		if has_version --host-root dev-java/openjdk:${PREVSLOT}; then
-			export JDK_HOME=${EPREFIX}/use/$(get_libdir)/openjdk-${PREVSLOT}
+			export JDK_HOME=${EPREFIX}/usr/$(get_libdir)/openjdk-${PREVSLOT}
 		else
 			if [[ ${MERGE_TYPE} != "binary" ]]; then
 				JDK_HOME=$(best_version --host-root dev-java/openjdk-bin:${SLOT})
