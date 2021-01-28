@@ -9,6 +9,7 @@ inherit autotools check-reqs flag-o-matic java-pkg-2 java-vm-2 multiprocessing p
 # set build version properly
 MY_PV="${PV%_p*}-ga"
 SLOT="${MY_PV%%[.+]*}"
+PREVSLOT="$((${SLOT}-1))"
 
 DESCRIPTION="Open source implementation of the Java programming language"
 HOMEPAGE="https://openjdk.java.net"
@@ -65,6 +66,8 @@ DEPEND="
 	|| (
 		dev-java/openjdk-bin:${SLOT}
 		dev-java/openjdk:${SLOT}
+		dev-java/openjdk-bin:${PREVSLOT}
+		dev-java/openjdk:${PREVSLOT}
 	)
 "
 
@@ -96,7 +99,7 @@ pkg_setup() {
 	openjdk_check_requirements
 	java-vm-2_pkg_setup
 
-	JAVA_PKG_WANT_BUILD_VM="openjdk-${SLOT} openjdk-bin-${SLOT}"
+	JAVA_PKG_WANT_BUILD_VM="openjdk-${SLOT} openjdk-bin-${SLOT} openjdk-${PREVSLOT} openjdk-bin-${PREVSLOT}"
 	JAVA_PKG_WANT_SOURCE="${SLOT}"
 	JAVA_PKG_WANT_TARGET="${SLOT}"
 
