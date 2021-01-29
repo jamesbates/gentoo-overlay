@@ -70,8 +70,6 @@ DEPEND="
 
 REQUIRED_USE="javafx? ( alsa !headless-awt )"
 
-S="${WORKDIR}/jdk${SLOT}u-jdk-${MY_PV}"
-
 # The space required to build varies wildly depending on USE flags,
 # ranging from 2GB to 16GB. This function is certainly not exact but
 # should be close enough to be useful.
@@ -168,8 +166,6 @@ src_configure() {
 		--with-vendor-vm-bug-url="https://bugs.openjdk.java.net"
 		--with-vendor-version-string="${PVR}"
 		--with-version-pre=""
-		--with-version-string="${PV%_p*}"
-		--with-version-build="${PV#*_p}"
 		--with-zlib=system
 		--enable-dtrace=$(usex systemtap yes no)
 		--enable-headless-only=$(usex headless-awt yes no)
