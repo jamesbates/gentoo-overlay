@@ -1,0 +1,95 @@
+--- phd2-2.6.9/thirdparty/thirdparty.cmake.orig	2020-07-04 21:38:28.000000000 +0200
++++ phd2-2.6.9/thirdparty/thirdparty.cmake	2021-03-29 11:32:54.892980719 +0200
+@@ -1057,12 +1057,11 @@
+   add_definitions(-DHAVE_SBIG_CAMERA=1)
+   add_definitions("-DTARGET=7")
+   message(STATUS "Finding SBIG Univeral Drivers on system")
+-  find_path(SBIG_INCLUDE_DIR sbigudrv.h)
+-  find_library(SBIG_LIBRARIES NAMES SBIG)
+-  find_library(SBIGUDRV_LIBRARIES NAMES sbigudrv)
++  find_path(SBIG_INCLUDE_DIR sbigudrv.h PATH_SUFFIXES libsbig)
++  find_library(SBIG_LIBRARIES NAMES sbig)
+   include_directories(${SBIG_INCLUDE_DIR})
+ 
+-  set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} SBIG sbigudrv)
++  set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} sbig)
+ 
+ endif()
+ 
+@@ -1338,14 +1337,17 @@
+       message(FATAL_ERROR "unknown system architecture")
+     endif()
+ 
++    if(USE_ZWO)
+     find_path(ZWO_INCLUDE_DIR ASICamera2.h
+       NO_DEFAULT_PATHS
+       PATHS ${PHD_PROJECT_ROOT_DIR}/cameras
+     )
++    endif()
+ 
+     # The binary libraries below do not support FreeBSD, ignore them
+     # when building for FreeBSD.
+     if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
++      if(USE_ZWO)
+       find_library(asiCamera2
+              NAMES ASICamera2
+              NO_DEFAULT_PATHS
+@@ -1357,11 +1359,12 @@
+       message(STATUS "Found ASICamera2 lib ${asiCamera2}")
+       add_definitions(-DHAVE_ZWO_CAMERA=1)
+       set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${asiCamera2})
++      endif()
+ 
++      if(USE_TOUPCAM)
+       find_library(toupcam
+              NAMES toupcam
+              NO_DEFAULT_PATHS
+-             NO_CMAKE_SYSTEM_PATH
+              PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/linux/${toupcam_arch})
+       if(NOT toupcam)
+         message(FATAL_ERROR "Cannot find the toupcam drivers")
+@@ -1369,21 +1372,23 @@
+       message(STATUS "Found toupcam lib ${toupcam}")
+       add_definitions(-DHAVE_TOUPTEK_CAMERA=1)
+       set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${toupcam})
+-      set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${toupcam})
++      endif()
+ 
++      if(USE_QHY)
+       if(IS_DIRECTORY ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
+         add_definitions(-DHAVE_QHY_CAMERA=1)
+ 
+         # be careful not to pick up any other qhy lib on the system
+         find_library(qhylib
+                NAMES qhyccd
+-               NO_DEFAULT_PATH
++	       NO_DEFAULT_PATHS
+                PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
+         if(NOT qhylib)
+           message(FATAL_ERROR "Cannot find the qhy SDK libs")
+         endif()
+           set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${qhylib})
+       endif()
++      endif()
+     endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+ 
+     find_program(LSB_RELEASE_EXEC lsb_release)
+@@ -1416,6 +1421,7 @@
+       ${libopenssag_dir}/openssag.h
+       )
+     add_library(OpenSSAG ${libOPENSSAG_SRC})
++    target_link_libraries(OpenSSAG)
+     target_include_directories(OpenSSAG PRIVATE ${thirdparty_dir}/${LIBOPENSSAG}/src)
+     add_definitions(-DHAVE_OPENSSAG_CAMERA=1)
+     set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} OpenSSAG)
+@@ -1426,7 +1432,9 @@
+   # math library is needed, and should be one of the last things to link to here
+   find_library(mathlib NAMES m)
+   set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${mathlib})
+-
++  if(USE_OPENSSAG)
++    add_definitions(-DOPENSSAG=1)
++  endif()
+ endif()
+ 
+ #############################################
