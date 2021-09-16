@@ -32,7 +32,7 @@ RDEPEND="
 	dev-python/sortedcontainers[${PYTHON_USEDEP}]
 	dev-python/bottleneck[${PYTHON_USEDEP}]
 	>=dev-python/asdf-2.5[${PYTHON_USEDEP}]
-	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
+	dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 	dev-python/configobj[${PYTHON_USEDEP}]
 	dev-python/h5py[${PYTHON_USEDEP}]
 	dev-python/ipython
