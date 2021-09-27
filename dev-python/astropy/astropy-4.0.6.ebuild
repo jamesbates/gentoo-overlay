@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{7,8,9,10} )
+PYTHON_COMPAT=( python3_{9,10} )
 
 inherit distutils-r1 xdg-utils
 
@@ -20,10 +20,10 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc test"
 RESTRICT="!test? ( test )"
 
-PATCHES=(
-	"${FILESDIR}/${P}-asdf-2.5.patch"
-	"${FILESDIR}/${P}-leapfile-test.patch"
-)
+#PATCHES=(
+#	"${FILESDIR}/astropy-4.0-asdf-2.5.patch"
+#	"${FILESDIR}/astropy-4.0-leapfile-test.patch"
+#)
 
 RDEPEND="
 	dev-libs/expat:0=
