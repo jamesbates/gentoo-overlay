@@ -38,7 +38,7 @@ diff -ur linux-5.13.17-gentoo/drivers/media/usb/em28xx/em28xx-cards.c linux-5.13
  			.driver_info = EM2860_BOARD_TVP5150_REFERENCE_DESIGN },
  	{ USB_DEVICE(0x1b80, 0xe349), /* Magix USB Videowandler-2 */
  		.driver_info = EM2861_BOARD_MAGIX_VIDEOWANDLER2 },
-+	{ USB_DEVICE(0xeb1a, 0x28210),
++	{ USB_DEVICE(0xeb1a, 0x2821),
 +		.driver_info = EM2820_BOARD_PLEXTOR_PX_AV200U },
  	{ },
  };
