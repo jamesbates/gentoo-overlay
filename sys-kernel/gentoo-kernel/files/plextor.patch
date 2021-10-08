@@ -1,0 +1,64 @@
+diff -ur linux-5.13.17-gentoo/Documentation/admin-guide/media/em28xx-cardlist.rst linux-5.13.17-gentoo.new/Documentation/admin-guide/media/em28xx-cardlist.rst
+--- linux-5.13.17-gentoo/Documentation/admin-guide/media/em28xx-cardlist.rst	2021-06-28 00:21:11.000000000 +0200
++++ linux-5.13.17-gentoo.new/Documentation/admin-guide/media/em28xx-cardlist.rst	2021-10-07 17:30:04.085262563 +0200
+@@ -438,3 +438,7 @@
+      - MyGica iGrabber
+      - em2860
+      - 1f4d:1abe
++   * - 107
++     - Plextor PX-AV200U
++     - em2880
++     - eb1a:2821
+diff -ur linux-5.13.17-gentoo/drivers/media/usb/em28xx/em28xx-cards.c linux-5.13.17-gentoo.new/drivers/media/usb/em28xx/em28xx-cards.c
+--- linux-5.13.17-gentoo/drivers/media/usb/em28xx/em28xx-cards.c	2021-06-28 00:21:11.000000000 +0200
++++ linux-5.13.17-gentoo.new/drivers/media/usb/em28xx/em28xx-cards.c	2021-10-07 17:40:24.627649722 +0200
+@@ -2583,6 +2583,21 @@
+ 		.tuner_gpio    = hauppauge_usb_quadhd_atsc_reg_seq,
+ 		.leds          = hauppauge_usb_quadhd_leds,
+ 	},
++	[EM2820_BOARD_PLEXTOR_PX_AV200U] = {
++		.name = "Plextor PX-AV200U",
++		.vchannels = 2,
++		.tuner_type = TUNER_ABSENT,
++		.decoder = EM28XX_SAA711X,
++		.input = { {
++			.type = EM28XX_VMUX_COMPOSITE,
++			.vmux = SAA7115_COMPOSITE0,
++			.amux = EM28XX_AMUX_LINE_IN,
++		}, {
++			.type = EM28XX_VMUX_SVIDEO,
++			.vmux = SAA7115_SVIDEO3,
++			.amux = EM28XX_AMUX_LINE_IN,
++		} },
++	},
+ };
+ EXPORT_SYMBOL_GPL(em28xx_boards);
+ 
+@@ -2806,6 +2821,8 @@
+ 			.driver_info = EM2860_BOARD_TVP5150_REFERENCE_DESIGN },
+ 	{ USB_DEVICE(0x1b80, 0xe349), /* Magix USB Videowandler-2 */
+ 		.driver_info = EM2861_BOARD_MAGIX_VIDEOWANDLER2 },
++	{ USB_DEVICE(0xeb1a, 0x28210),
++		.driver_info = EM2820_BOARD_PLEXTOR_PX_AV200U },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(usb, em28xx_id_table);
+@@ -2836,6 +2853,7 @@
+ 	{0x4ba50080, EM2861_BOARD_GADMEI_UTV330PLUS, TUNER_TNF_5335MF},
+ 	{0x6b800080, EM2874_BOARD_LEADERSHIP_ISDBT, TUNER_ABSENT},
+ 	{0x27e10080, EM2882_BOARD_ZOLID_HYBRID_TV_STICK, TUNER_XC2028},
++	{0x6ba50080, EM2820_BOARD_PLEXTOR_PX_AV200U, TUNER_ABSENT},
+ };
+ 
+ /* NOTE: introduce a separate hash table for devices with 16 bit eeproms */
+diff -ur linux-5.13.17-gentoo/drivers/media/usb/em28xx/em28xx.h linux-5.13.17-gentoo.new/drivers/media/usb/em28xx/em28xx.h
+--- linux-5.13.17-gentoo/drivers/media/usb/em28xx/em28xx.h	2021-06-28 00:21:11.000000000 +0200
++++ linux-5.13.17-gentoo.new/drivers/media/usb/em28xx/em28xx.h	2021-10-07 17:29:50.955281926 +0200
+@@ -153,6 +153,7 @@
+ #define EM28178_BOARD_PCTV_461E_V2                104
+ #define EM2860_BOARD_MYGICA_IGRABBER              105
+ #define EM2874_BOARD_HAUPPAUGE_USB_QUADHD         106
++#define EM2820_BOARD_PLEXTOR_PX_AV200U		  107
+ 
+ /* Limits minimum and default number of buffers */
+ #define EM28XX_MIN_BUF 4
