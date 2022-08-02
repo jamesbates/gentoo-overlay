@@ -20,10 +20,11 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc test"
 RESTRICT="!test? ( test )"
 
-#PATCHES=(
+PATCHES=(
 #	"${FILESDIR}/astropy-4.0-asdf-2.5.patch"
 #	"${FILESDIR}/astropy-4.0-leapfile-test.patch"
-#)
+	"${FILESDIR}/astropy-4.0.6-cfitsio4.patch"
+)
 
 RDEPEND="
 	dev-libs/expat:0=
