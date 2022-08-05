@@ -26,7 +26,7 @@ RDEPEND="
 	$(python_gen_cond_dep '
 	dev-python/astropy[${PYTHON_USEDEP}]
 	dev-python/fitsio[${PYTHON_USEDEP}]
-	dev-python/numpy[${PYTHON_USEDEP}]' )
+	<dev-python/numpy-1.23[${PYTHON_USEDEP}]' )
 	media-libs/libpng:0
 	media-libs/netpbm
 	sci-astronomy/wcslib:0=
