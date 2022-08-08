@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils cmake-utils
+inherit eutils cmake
 
 DESCRIPTION="PHD2 Autoguiding software"
 HOMEPAGE=""
@@ -51,6 +51,6 @@ src_configure() {
 		-DSBIG_SYSTEM=$(usex indi_drivers_sbig ON)
 	)
 
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
