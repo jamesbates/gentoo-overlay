@@ -33,7 +33,7 @@ IUSE="
 REQUIRED_USE="|| ( $IUSE )"
 
 DEPEND="
-	=sci-libs/indilib-${PV}-r1
+	=sci-libs/indilib-${PV}
 	virtual/pkgconfig
 	indi_drivers_apogee? ( >=virtual/libusb-1 net-misc/curl )
 	indi_drivers_fishcamp? ( >=virtual/libusb-1 )

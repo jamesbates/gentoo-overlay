@@ -71,7 +71,7 @@ IUSE="
 REQUIRED_USE="|| ( $IUSE )"
 
 DEPEND="
-	=sci-libs/indilib-${PVR}-r1
+	=sci-libs/indilib-${PVR}
 	virtual/pkgconfig
 	indi_drivers_ahp_xc? ( sci-libs/indilib-3rdparty-libs[indi_drivers_ahp_correlator] )
 	indi_drivers_apogee? ( sci-libs/indilib-3rdparty-libs[indi_drivers_apogee] sci-libs/cfitsio sys-libs/zlib )
