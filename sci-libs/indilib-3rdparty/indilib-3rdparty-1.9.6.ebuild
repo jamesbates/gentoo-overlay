@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils eutils udev
+inherit cmake eutils udev
 
 DESCRIPTION="INDIlib 3rd party drivers"
 HOMEPAGE="http://www.indilib.org/"
@@ -129,6 +129,6 @@ src_configure() {
 		-Wno-dev
 	)
 
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils eutils udev
+inherit cmake eutils udev
 
 DESCRIPTION="INDIlib 3rdparty driver library dependencies"
 HOMEPAGE="http://www.indilib.org/"
@@ -65,7 +65,7 @@ src_configure() {
 		-DUDEVRULES_INSTALL_DIR="$(get_udevdir)"/rules.d
 	)
 
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 
