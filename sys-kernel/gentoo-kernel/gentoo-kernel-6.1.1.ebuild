@@ -1,55 +1,66 @@
-# Copyright 2020-2021 Gentoo Authors
+# Copyright 2020-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit kernel-build toolchain-funcs
 
 MY_P=linux-${PV%.*}
 GENPATCHES_P=genpatches-${PV%.*}-$(( ${PV##*.} + 1 ))
 # https://koji.fedoraproject.org/koji/packageinfo?packageID=8
-CONFIG_VER=5.14.6
-CONFIG_HASH=416de8884575795f040923fb460e7fc5e5d67102
-GENTOO_CONFIG_VER=5.13.4
+# forked to https://github.com/projg2/fedora-kernel-config-for-gentoo
+CONFIG_VER=6.1.0-gentoo
+GENTOO_CONFIG_VER=g3
 
 DESCRIPTION="Linux kernel built with Gentoo patches"
 HOMEPAGE="https://www.kernel.org/"
-SRC_URI+=" https://cdn.kernel.org/pub/linux/kernel/v$(ver_cut 1).x/${MY_P}.tar.xz
+SRC_URI+="
+	https://cdn.kernel.org/pub/linux/kernel/v$(ver_cut 1).x/${MY_P}.tar.xz
 	https://dev.gentoo.org/~alicef/dist/genpatches/${GENPATCHES_P}.base.tar.xz
 	https://dev.gentoo.org/~alicef/dist/genpatches/${GENPATCHES_P}.extras.tar.xz
-	https://github.com/mgorny/gentoo-kernel-config/archive/v${GENTOO_CONFIG_VER}.tar.gz
+	https://github.com/projg2/gentoo-kernel-config/archive/${GENTOO_CONFIG_VER}.tar.gz
 		-> gentoo-kernel-config-${GENTOO_CONFIG_VER}.tar.gz
 	amd64? (
-		https://src.fedoraproject.org/rpms/kernel/raw/${CONFIG_HASH}/f/kernel-x86_64-fedora.config
+		https://raw.githubusercontent.com/projg2/fedora-kernel-config-for-gentoo/${CONFIG_VER}/kernel-x86_64-fedora.config
 			-> kernel-x86_64-fedora.config.${CONFIG_VER}
 	)
 	arm64? (
-		https://src.fedoraproject.org/rpms/kernel/raw/${CONFIG_HASH}/f/kernel-aarch64-fedora.config
+		https://raw.githubusercontent.com/projg2/fedora-kernel-config-for-gentoo/${CONFIG_VER}/kernel-aarch64-fedora.config
 			-> kernel-aarch64-fedora.config.${CONFIG_VER}
 	)
 	ppc64? (
-		https://src.fedoraproject.org/rpms/kernel/raw/${CONFIG_HASH}/f/kernel-ppc64le-fedora.config
+		https://raw.githubusercontent.com/projg2/fedora-kernel-config-for-gentoo/${CONFIG_VER}/kernel-ppc64le-fedora.config
 			-> kernel-ppc64le-fedora.config.${CONFIG_VER}
 	)
 	x86? (
-		https://src.fedoraproject.org/rpms/kernel/raw/${CONFIG_HASH}/f/kernel-i686-fedora.config
+		https://raw.githubusercontent.com/projg2/fedora-kernel-config-for-gentoo/${CONFIG_VER}/kernel-i686-fedora.config
 			-> kernel-i686-fedora.config.${CONFIG_VER}
-	)"
+	)
+"
 S=${WORKDIR}/${MY_P}
 
 LICENSE="GPL-2"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ppc ~ppc64 ~riscv ~x86"
 IUSE="debug hardened"
-REQUIRED_USE="arm? ( savedconfig )"
+REQUIRED_USE="arm? ( savedconfig )
+	hppa? ( savedconfig )
+	riscv? ( savedconfig )"
 
 RDEPEND="
-	!sys-kernel/gentoo-kernel-bin:${SLOT}"
+	!sys-kernel/gentoo-kernel-bin:${SLOT}
+"
 BDEPEND="
-	debug? ( dev-util/pahole )"
+	debug? ( dev-util/pahole )
+"
 PDEPEND="
-	>=virtual/dist-kernel-${PV}"
+	>=virtual/dist-kernel-${PV}
+"
 
-QA_FLAGS_IGNORED="usr/src/linux-.*/scripts/gcc-plugins/.*.so"
+QA_FLAGS_IGNORED="
+	usr/src/linux-.*/scripts/gcc-plugins/.*.so
+	usr/src/linux-.*/vmlinux
+	usr/src/linux-.*/arch/powerpc/kernel/vdso.*/vdso.*.so.dbg
+"
 
 src_prepare() {
 	local PATCHES=(
@@ -58,6 +69,8 @@ src_prepare() {
 		"${FILESDIR}"/plextor.patch
 	)
 	default
+
+	local biendian=false
 
 	# prepare the default config
 	case ${ARCH} in
@@ -69,9 +82,22 @@ src_prepare() {
 			;;
 		arm64)
 			cp "${DISTDIR}/kernel-aarch64-fedora.config.${CONFIG_VER}" .config || die
+			biendian=true
+			;;
+		hppa)
+			return
+			;;
+		ppc)
+			# assume powermac/powerbook defconfig
+			# we still package.use.force savedconfig
+			cp "${WORKDIR}/${MY_P}/arch/powerpc/configs/pmac32_defconfig" .config || die
 			;;
 		ppc64)
 			cp "${DISTDIR}/kernel-ppc64le-fedora.config.${CONFIG_VER}" .config || die
+			biendian=true
+			;;
+		riscv)
+			return
 			;;
 		x86)
 			cp "${DISTDIR}/kernel-i686-fedora.config.${CONFIG_VER}" .config || die
@@ -102,5 +128,11 @@ src_prepare() {
 			merge_configs+=( "${dist_conf_path}/hardened-${ARCH}.config" )
 		fi
 	fi
+
+	# this covers ppc64 and aarch64_be only for now
+	if [[ ${biendian} == true && $(tc-endian) == big ]]; then
+		merge_configs+=( "${dist_conf_path}/big-endian.config" )
+	fi
+
 	kernel-build_merge_configs "${merge_configs[@]}"
 }
