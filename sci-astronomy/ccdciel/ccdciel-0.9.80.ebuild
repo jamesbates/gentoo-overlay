@@ -16,7 +16,7 @@ IUSE=""
 
 DEPEND="
 	dev-lang/fpc
-	>=dev-lang/lazarus-2.0.2[-minimal]
+	|| ( >=dev-lang/lazarus-2.0.2[-minimal] >=dev-lang/lazarus-2.2.4 )
 "
 RDEPEND="
 	${DEPEND}
