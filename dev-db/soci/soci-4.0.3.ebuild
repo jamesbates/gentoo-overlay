@@ -28,7 +28,7 @@ RDEPEND="${DEPEND}"
 
 src_configure() {
 	local mycmakeargs=(
-		-DCMAKE_STATIC=OFF
+		-DSOCI_STATIC=OFF
 		-DSOCI_CXX11=ON
 		-DSOCI_TESTS=$(usex test)
 		-DWITH_BOOST=$(usex boost)
