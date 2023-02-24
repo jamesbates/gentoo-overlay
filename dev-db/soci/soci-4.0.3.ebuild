@@ -1,50 +1,56 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit cmake
 
-DESCRIPTION="SOCI"
-HOMEPAGE="http://soci.sourceforge.net/"
-SRC_URI="https://s3.amazonaws.com/rstudio-buildtools/soci-${PV}.tar.gz"
-PATCHES=(
-)
+DESCRIPTION="Simple Open (Database) Call Interface - write SQL in C++"
+HOMEPAGE="https://github.com/SOCI/soci"
+SRC_URI="https://github.com/${PN}/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Boost-1.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-IUSE=""
-REQUIRED_USE=""
+IUSE="boost firebird mysql odbc oracle postgres +sqlite test"
+RESTRICT="!test? ( test )"
 
-DEPEND="
-	dev-libs/boost
-	dev-db/postgresql
-	dev-db/sqlite:3
+RDEPEND="
+	boost? ( >=dev-libs/boost-1.33.1:= )
+	firebird? ( dev-db/firebird )
+	mysql? ( dev-db/mysql:5.7= )
+	odbc? ( dev-db/unixODBC )
+	oracle? ( dev-db/oracle-instantclient )
+	postgres? ( dev-db/postgresql:* )
+	sqlite? ( dev-db/sqlite )
 "
 RDEPEND="${DEPEND}"
 
 src_configure() {
 	local mycmakeargs=(
-		-GNinja
-		-DCMAKE_POLICY_DEFAULT_CMP0063="NEW"
-		-DCMAKE_POLICY_DEFAULT_CMP0074="NEW"
-		-DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=true
-		-DCMAKE_CXX_VISIBILITY_PRESET="$COMPILE_VISIBILITY"
-		-DCMAKE_OSX_DEPLOYMENT_TARGET="10.12"
-		-DSOCI_TESTS=OFF
+		-DCMAKE_STATIC=OFF
 		-DSOCI_CXX11=ON
-		-DSOCI_EMPTY=OFF
-		-DWITH_BOOST=ON
-		-DWITH_POSTGRESQL=ON
-		-DWITH_SQLITE3=ON
+		-DSOCI_TESTS=$(usex test)
+		-DWITH_BOOST=$(usex boost)
+		-DWITH_POSTGRESQL=$(usex postgres)
+		-DWITH_SQLITE3=$(usex sqlite)
 		-DWITH_DB2=OFF
-		-DWITH_MYSQL=OFF
-		-DWITH_ORACLE=OFF
-		-DWITH_FIREBIRD=OFF
-		-DWITH_ODBC=OFF
+		-DWITH_MYSQL=$(usex mysql)
+		-DWITH_ORACLE=$(usex oracle)
+		-DWITH_FIREBIRD=$(usex firebird)
+		-DWITH_ODBC=$(usex odbc)
 	)
 
 	cmake_src_configure
+}
+
+src_test() {
+	# I can confirm that these two sets of test work properly in the network
+	# sandbox. I don't think the other backend tests work in the sandbox though.
+	local myctestargs=(
+		-R "soci_((empty)|(sqlite3))"
+	)
+
+	cmake_src_test
 }
 
