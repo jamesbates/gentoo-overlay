@@ -1,0 +1,10 @@
+--- a/src/cpp/core/include/core/Thread.hpp.orig	2023-02-23 17:10:51.462278938 +0100
++++ b/src/cpp/core/include/core/Thread.hpp	2023-02-23 17:11:14.705587168 +0100
+@@ -17,6 +17,7 @@
+ #define CORE_THREAD_HPP
+ 
+ #include <queue>
++#include <set>
+ 
+ #include <boost/utility.hpp>
+ #include <boost/function.hpp>

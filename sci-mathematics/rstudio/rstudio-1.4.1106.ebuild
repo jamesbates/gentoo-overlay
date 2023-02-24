@@ -82,6 +82,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.4.1106-resource-path.patch"
 	"${FILESDIR}/${PN}-1.4.1106-server-paths.patch"
 	"${FILESDIR}/${PN}-1.4.1106-soci-cmake-find_library.patch"
+	"${FILESDIR}/${PN}-1.4.1106-cpp-set.patch"
 )
 
 src_unpack() {
