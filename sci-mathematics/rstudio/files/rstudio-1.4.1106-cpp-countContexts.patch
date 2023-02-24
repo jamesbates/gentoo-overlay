@@ -1,0 +1,13 @@
+--- src/cpp/r/session/RSession.cpp.orig	2023-02-24 13:38:57.408415854 +0100
++++ src/cpp/r/session/RSession.cpp	2023-02-24 13:40:38.018300893 +0100
+@@ -67,6 +67,10 @@
+ 
+ #include <gsl/gsl>
+ 
++extern "C" { 
++    int Rf_countContexts(int, int);
++}
++
+ #define CTXT_BROWSER 16
+ 
+ // get rid of windows TRUE and FALSE definitions
