@@ -21,7 +21,7 @@ RDEPEND="
 	dev-python/jsonschema[${PYTHON_USEDEP}]
 	>=dev-python/pyyaml-3.10[${PYTHON_USEDEP}]
 	>=dev-python/six-1.9[${PYTHON_USEDEP}]
-	>=dev-python/semantic_version-2.8.0[${PYTHON_USEDEP}]"
+	>=dev-python/semantic-version-2.8.0[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	dev-python/astropy-helpers[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
