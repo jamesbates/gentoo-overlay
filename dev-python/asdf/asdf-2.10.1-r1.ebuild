@@ -25,7 +25,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	dev-python/astropy-helpers[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	dev-python/setuptools_scm[${PYTHON_USEDEP}]
+	dev-python/setuptools-scm[${PYTHON_USEDEP}]
 	doc? (
 		dev-python/sphinx[${PYTHON_USEDEP}]
 		dev-python/sphinx-astropy[${PYTHON_USEDEP}]
