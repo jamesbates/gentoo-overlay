@@ -45,7 +45,7 @@ RDEPEND="
 	dev-java/javax-inject
 	=dev-java/validation-api-1.0*:1.0[source]
 	>=dev-lang/R-3.0.1
-	>=dev-libs/boost-1.69:=
+	>=dev-libs/boost-1.69
 	>=dev-libs/mathjax-2.7
 	dev-libs/soci[postgres]
 	net-libs/nodejs
