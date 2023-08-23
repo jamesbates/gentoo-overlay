@@ -9,28 +9,16 @@ This Gentoo overlay contains ebuild scripts for some useful Astronomy programs, 
 - ccdciel
 - skychart
 
-It also contains the 3rd party INDI drivers from https://github.com/indilib/indi-3rdparty.
-This includes drivers such as:
-
-- indi_asi_ccd
-- indi_gphoto_ccd
-- indi_eqmod_telescope
-
 How to use it
 -------------
-On a runnig Gentoo system, install layman:
+On a runnig Gentoo system, install eselect-repository:
 
-  emerge layman
+  emerge eselect-repository
 
-Next, copy the file jamesbates.xml in the repository to your /etc/layman/overlays directory:
+Now you can add this repository:
 
-  mkdir -p /etc/layman/overlays
-  curl -o /etc/layman/overlays/jamesbates.xml https://raw.githubusercontent.com/jamesbates/gentoo-overlay/master/jamesbates.xml
-
-Finally, apply the overlay using layman
-
-  layman -S
-  layman -a jamesbates
+  eselect add jamesbates git https://github.com/jamesbates/gentoo-overlay.git
+  emerge sync
 
 You can now add/update/remove the programs of your choice, as you would any other Gentoo programs, e.g.:
 
@@ -39,10 +27,14 @@ You can now add/update/remove the programs of your choice, as you would any othe
 The ebuilds are all keyworded as experimental (i.e. ~amd64), so you'll likely have to add them to your
 /etc/portage/package.keywords
 
-By default, all 3rd party drivers available are installed when you emerge sci-libs/indilib-3rdparty. You can limit
-the drivers you want by defining the variable INDI_DRIVERS in your /etc/portage/make.conf. For example:
+In order to use many of the 3rd party INDI drivers (e.g. eqmod, which is required dependency of eqmod-gui), you may wich to add the 
+"hamari" overlay:
 
-INDI_DRIVERS="asicam toupbase eqmod gphoto"
+  eselect repository enable hamari
+
+, and then enable the desired drivers in your make.conf:
+
+  INDILIB_DRIVERS="asicam toupbase eqmod gphoto"
 
 
 
