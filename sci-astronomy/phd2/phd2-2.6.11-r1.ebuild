@@ -26,10 +26,10 @@ DEPEND="
 	virtual/libusb
 	x11-libs/wxGTK:3.0
 	net-misc/curl
-	indilib_drivers_asi? ( sci-libs/indilib-drivers-asi )
-	indilib_drivers_toupbase? ( sci-libs/indilib-drivers-toupbase )
-	indilib_drivers_qhy? ( sci-libs/indilib-drivers-qhy )
-	indilib_drivers_sbig? ( sci-libs/indilib-drivers-sbig )
+	indilib_drivers_asi? ( sci-libs/indilib-driver-asi )
+	indilib_drivers_toupbase? ( sci-libs/indilib-driver-toupbase )
+	indilib_drivers_qhy? ( sci-libs/indilib-driver-qhy )
+	indilib_drivers_sbig? ( sci-libs/indilib-driver-sbig )
 	sci-libs/cfitsio
 	sci-libs/indilib
 	virtual/libusb
