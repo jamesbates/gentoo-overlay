@@ -15,7 +15,10 @@ PATCHES=(
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-IUSE="indilib_drivers_asi indilib_drivers_toupbase indilib_drivers_qhy indilib_drivers_sbig indilib_drivers_ssag"
+IUSE_INDILIB_DRIVERS="asi toupbase qhy sbig ssag"
+
+use_indilib_drivers=$(printf ' indilib_drivers_%s' ${IUSE_INDILIB_DRIVERS})
+IUSE="${use_indilib_drivers}"
 
 DEPEND="
 	sys-libs/zlib
