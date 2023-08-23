@@ -7,17 +7,11 @@ inherit eutils xdg-utils
 
 DESCRIPTION="A GUI for INDI EqMod driver"
 HOMEPAGE=""
-if [[ ${PV} == *9999 ]]; then
-	inherit git-r3
-	EGIT_REPO_URI="https://github.com/pchev/${PN}.git"
-	EGIT_SUBMODULES=()
-else
-    SRC_URI="https://github.com/pchev/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-    KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-fi
+SRC_URI="https://github.com/pchev/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3+"
 SLOT="0"
+KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 IUSE=""
 
 DEPEND="
