@@ -1,4 +1,4 @@
-USE_EXPAND="INDI_DRIVERS"
+USE_EXPAND="INDI_DRIVERS INDILIB_DRIVERS"
 INDI_DRIVERS="ahp_xc apogee armadillo asicam astrolink4 astromechfoc atik avalon beefocus bresserexos2 caux cloudwatcher dreamfocuser dsi duino eqmod ffmv fishcamp fli fxload gige gphoto gpsd gpsnmea inovaplx limesdr maxdome mgen mi nexdome nightscape nse orion_ssg3 pentax playerone qhy qsi radiosim rpicam rtklib rtlsdr sbig shelyak skywalker spectracyber starbook starbook_ten sv305 sx talon6 toupbase webcam weewx_json"
 INDILIB_DRIVERS="asi toupbase sbig ssag qhy"
 
