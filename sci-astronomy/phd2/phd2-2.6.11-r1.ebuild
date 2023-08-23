@@ -15,7 +15,7 @@ PATCHES=(
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-IUSE="indi_drivers_asicam indi_drivers_toupbase indi_drivers_qhy indi_drivers_sbig indi_drivers_ssag"
+IUSE="indilib_drivers_asi indilib_drivers_toupbase indilib_drivers_qhy indilib_drivers_sbig indilib_drivers_ssag"
 
 DEPEND="
 	sys-libs/zlib
@@ -23,10 +23,10 @@ DEPEND="
 	virtual/libusb
 	x11-libs/wxGTK:3.0
 	net-misc/curl
-	indi_drivers_asicam? ( sci-libs/indilib-3rdparty-libs[indi_drivers_asicam] )
-	indi_drivers_toupbase? ( sci-libs/indilib-3rdparty-libs[indi_drivers_toupbase] )
-	indi_drivers_qhy? ( sci-libs/indilib-3rdparty-libs[indi_drivers_qhy] )
-	indi_drivers_sbig? ( sci-libs/indilib-3rdparty-libs[indi_drivers_sbig] )
+	indilib_drivers_asi? ( sci-libs/indilib-drivers-asi )
+	indilib_drivers_toupbase? ( sci-libs/indilib-drivers-toupbase )
+	indilib_drivers_qhy? ( sci-libs/indilib-drivers-qhy )
+	indilib_drivers_sbig? ( sci-libs/indilib-drivers-sbig )
 	sci-libs/cfitsio
 	sci-libs/indilib
 	virtual/libusb
@@ -44,11 +44,11 @@ src_configure() {
 		-DUSE_SYSTEM_EIGEN3=true
 		-DUSE_SYSTEM_GTEST=true
 		-DUSE_SYSTEM_LIBINDI=true
-		-DUSE_OPENSSAG=$(usex indi_drivers_ssag ON)
-		-DUSE_ZWO=$(usex indi_drivers_asicam ON)
-		-DUSE_TOUPCAM=$(usex indi_drivers_toupbase ON)
-		-DUSE_QHY=$(usex indi_drivers_qhy ON)
-		-DSBIG_SYSTEM=$(usex indi_drivers_sbig ON)
+		-DUSE_OPENSSAG=$(usex indilib_drivers_ssag ON)
+		-DUSE_ZWO=$(usex indilib_drivers_asi ON)
+		-DUSE_TOUPCAM=$(usex indilib_drivers_toupbase ON)
+		-DUSE_QHY=$(usex indilib_drivers_qhy ON)
+		-DSBIG_SYSTEM=$(usex indilib_drivers_sbig ON)
 	)
 
 	cmake_src_configure
