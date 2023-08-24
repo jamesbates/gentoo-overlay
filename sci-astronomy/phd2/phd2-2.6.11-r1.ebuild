@@ -15,8 +15,8 @@ PATCHES=(
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-IUSE_INDILIB_DRIVERS="asi toupbase qhy sbig ssag"
 
+IUSE_INDILIB_DRIVERS="asi toupbase qhy sbig ssag"
 use_indilib_drivers=$(printf ' indilib_drivers_%s' ${IUSE_INDILIB_DRIVERS})
 IUSE="${use_indilib_drivers}"
 
@@ -26,10 +26,10 @@ DEPEND="
 	virtual/libusb
 	x11-libs/wxGTK:3.0
 	net-misc/curl
-	indilib_drivers_asi? ( sci-libs/indilib-driver-asi )
-	indilib_drivers_toupbase? ( sci-libs/indilib-driver-toupbase )
-	indilib_drivers_qhy? ( sci-libs/indilib-driver-qhy )
-	indilib_drivers_sbig? ( sci-libs/indilib-driver-sbig )
+	indilib_drivers_asi? ( sci-libs/libasi )
+	indilib_drivers_toupbase? ( sci-libs/libtoupbase )
+	indilib_drivers_qhy? ( sci-libs/libqhy )
+	indilib_drivers_sbig? ( sci-libs/libsbig )
 	sci-libs/cfitsio
 	sci-libs/indilib
 	virtual/libusb
