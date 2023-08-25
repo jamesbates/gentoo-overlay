@@ -10,6 +10,7 @@ HOMEPAGE=""
 SRC_URI="https://github.com/OpenPHDGuiding/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 PATCHES=(
 	"${FILESDIR}"/phd2-system-cameras-2.6.9.patch
+	"${FILESDIR}"/phd2-c++14.patch
 )
 
 LICENSE="GPL-2+"
