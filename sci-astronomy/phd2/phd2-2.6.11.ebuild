@@ -29,7 +29,7 @@ DEPEND="
 	indi_drivers_qhy? ( sci-libs/indilib-3rdparty-libs[indi_drivers_qhy] )
 	indi_drivers_sbig? ( sci-libs/indilib-3rdparty-libs[indi_drivers_sbig] )
 	sci-libs/cfitsio
-	sci-libs/indilib
+	<=sci-libs/indilib-1.9.9
 	virtual/libusb
 	>=dev-cpp/eigen-3.2.91:3
 	dev-cpp/gtest

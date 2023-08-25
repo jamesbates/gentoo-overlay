@@ -3,19 +3,20 @@
 
 EAPI=7
 
-inherit eutils cmake
+inherit eutils cmake git-r3
 
 DESCRIPTION="PHD2 Autoguiding software"
 HOMEPAGE=""
-SRC_URI="https://github.com/OpenPHDGuiding/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+EGIT_REPO_URI="https://github.com/OpenPHDGuiding/${PN}.git"
+EGIT_SUBMODULES=()
 PATCHES=(
-	"${FILESDIR}"/phd2-system-cameras-2.6.9.patch
+	"${FILESDIR}"/phd2-system-cameras-9999.patch
 	"${FILESDIR}"/phd2-c++14.patch
 )
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+#KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 
 IUSE_INDILIB_DRIVERS="asi toupbase qhy sbig ssag"
 use_indilib_drivers=$(printf ' indilib_drivers_%s' ${IUSE_INDILIB_DRIVERS})
