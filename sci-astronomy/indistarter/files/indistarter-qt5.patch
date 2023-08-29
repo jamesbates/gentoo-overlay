@@ -1,0 +1,55 @@
+--- ./component/Makefile.in.orig	2022-12-04 12:30:06.000000000 +0100
++++ ./component/Makefile.in	2023-08-29 11:38:59.201909704 +0200
+@@ -44,7 +44,7 @@
+ ifeq ($(OS_TARGET),darwin)
+ LCL_PLATFORM=carbon
+ else
+-LCL_PLATFORM=gtk2
++LCL_PLATFORM=qt5
+ endif
+ endif
+ endif
+--- ./component/indiclient/Makefile.in.orig	2022-12-04 12:30:06.000000000 +0100
++++ ./component/indiclient/Makefile.in	2023-08-29 11:38:59.205243093 +0200
+@@ -42,7 +42,7 @@
+ ifeq ($(OS_TARGET),darwin)
+ LCL_PLATFORM=carbon
+ else
+-LCL_PLATFORM=gtk2
++LCL_PLATFORM=qt5
+ endif
+ endif
+ endif
+--- ./component/synapse/Makefile.in.orig	2022-12-04 12:30:06.000000000 +0100
++++ ./component/synapse/Makefile.in	2023-08-29 11:38:59.205243093 +0200
+@@ -48,7 +48,7 @@
+ LCL_PLATFORM=cocoa
+ endif
+ else
+-LCL_PLATFORM=gtk2
++LCL_PLATFORM=qt5
+ endif
+ endif
+ endif
+--- ./component/uniqueinstance/Makefile.in.orig	2022-12-04 12:30:06.000000000 +0100
++++ ./component/uniqueinstance/Makefile.in	2023-08-29 11:38:59.205243093 +0200
+@@ -40,7 +40,7 @@
+ ifeq ($(OS_TARGET),darwin)
+ LCL_PLATFORM=carbon
+ else
+-LCL_PLATFORM=gtk2
++LCL_PLATFORM=qt5
+ endif
+ endif
+ endif
+--- ./Makefile.in.orig	2022-12-04 12:30:06.000000000 +0100
++++ ./Makefile.in	2023-08-29 11:38:59.208576482 +0200
+@@ -41,7 +41,7 @@
+ LCL_PLATFORM=cocoa
+ opt_target= -k-macosx_version_min -k10.10
+ else
+-LCL_PLATFORM=gtk2
++LCL_PLATFORM=qt5
+ opt_target=
+ endif
+ endif

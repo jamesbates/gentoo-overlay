@@ -16,14 +16,17 @@ IUSE=""
 
 DEPEND="
 	dev-lang/fpc
-	>=dev-lang/lazarus-1.8.4-r2
+	>=dev-lang/lazarus-2.2[-gtk2]
 	media-libs/sdl-mixer
 "
 RDEPEND="
 	${DEPEND}
-	|| ( sci-libs/indilib-3rdparty[indi_drivers_eqmod] sci-libs/indilib-drivers[indilib_drivers_eqmod] )
+	|| ( sci-libs/indilib-drivers[indilib_drivers_eqmod] sci-libs/indilib-3rdparty[indi_drivers_eqmod] )
 "
 BDEPEND=""
+PATCHES=(
+	"${FILESDIR}/eqmodgui-qt5.patch"
+)
 
 src_configure() {
 

@@ -16,13 +16,16 @@ IUSE=""
 
 DEPEND="
 	dev-lang/fpc
-	>=dev-lang/lazarus-1.8.4-r2
+	>=dev-lang/lazarus-2.2[-gtk2]
 "
 RDEPEND="
 	${DEPEND}
 	sci-libs/indilib
 "
 BDEPEND=""
+PATCHES=(
+	"${FILESDIR}/indistarter-qt5.patch"
+)
 
 src_configure() {
 
