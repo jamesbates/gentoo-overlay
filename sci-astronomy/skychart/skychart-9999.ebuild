@@ -5,14 +5,18 @@ EAPI=7
 
 inherit eutils xdg-utils
 
-DESCRIPTION="A CCD capture program intended for the amateur astronomer"
+DESCRIPTION="A skychart program intended for the amateur astronomer"
 HOMEPAGE=""
 if [[ ${PV} == *9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/pchev/${PN}.git"
 	EGIT_SUBMODULES=()
+	SRC_URI="http://sourceforge.net/projects/skychart/files/4-source_data/data_jpleph.tgz -> data_jpleph.data
+			http://sourceforge.net/projects/skychart/files/4-source_data/data_spicesun.tgz -> data_spicesun.data"
 else
-    SRC_URI="https://github.com/pchev/${PN}/archive/V${PV}.tar.gz -> ${P}.tar.gz"
+    SRC_URI="https://github.com/pchev/${PN}/archive/V${PV}.tar.gz -> ${P}.tar.gz
+			http://sourceforge.net/projects/skychart/files/4-source_data/data_jpleph.tgz -> data_jpleph.data
+			http://sourceforge.net/projects/skychart/files/4-source_data/data_spicesun.tgz -> data_spicesun.data"
     KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 fi
 
@@ -30,6 +34,15 @@ RDEPEND="
 	sci-libs/libpasastro
 "
 BDEPEND=""
+
+src_unpack() {
+	if [[ ${PV} == *9999 ]]; then
+		git-r3_src_unpack
+	fi
+	default_src_unpack
+	cp ${DISTDIR}/data_jpleph.data ${WORKDIR}/${P}/BaseData/data_jpleph.tgz
+	cp ${DISTDIR}/data_spicesun.data ${WORKDIR}/${P}/BaseData/data_spicesun.tgz
+}
 
 src_configure() {
 
