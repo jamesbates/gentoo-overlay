@@ -16,7 +16,7 @@ IUSE=""
 
 DEPEND="
 	dev-lang/fpc
-	|| ( >=dev-lang/lazarus-2.0.2[-minimal] >=dev-lang/lazarus-2.2.4[gtk2,extras] )
+	|| ( >=dev-lang/lazarus-2.0.2[-minimal] >=dev-lang/lazarus-2.2.4[-gtk2,extras] )
 "
 RDEPEND="
 	${DEPEND}
@@ -27,7 +27,6 @@ RDEPEND="
 BDEPEND=""
 
 src_configure() {
-
 	./configure fpc=/usr/lib/fpc/"`fpc -iV`"/units/"`fpc -iTP`"-"`fpc -iTO`" prefix=/usr
 }
 
