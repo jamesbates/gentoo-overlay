@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils xdg-utils
+inherit xdg-utils
 
 DESCRIPTION="A simple program to run a INDI server"
 HOMEPAGE=""

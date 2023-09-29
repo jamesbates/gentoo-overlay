@@ -3,7 +3,6 @@
 
 EAPI=7
 
-inherit eutils git-r3
 
 DESCRIPTION="Interface to standard astronomy libraries for use from Pascal programs"
 HOMEPAGE=""

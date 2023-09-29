@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils cmake
+inherit cmake
 
 DESCRIPTION="PHD2 Autoguiding software"
 HOMEPAGE=""

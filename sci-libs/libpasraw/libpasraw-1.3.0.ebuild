@@ -3,7 +3,6 @@
 
 EAPI=7
 
-inherit eutils
 
 DESCRIPTION="Interface to libraw for use from Pascal programs"
 HOMEPAGE=""

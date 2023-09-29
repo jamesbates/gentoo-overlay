@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils xdg-utils
+inherit xdg-utils
 
 DESCRIPTION="A skychart program intended for the amateur astronomer"
 HOMEPAGE=""

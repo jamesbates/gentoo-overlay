@@ -3,7 +3,6 @@
 
 EAPI=7
 
-inherit eutils
 
 DESCRIPTION="Interface to standard astronomy libraries for use from Pascal programs"
 HOMEPAGE=""

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils cmake git-r3
+inherit cmake git-r3
 
 DESCRIPTION="PHD2 Autoguiding software"
 HOMEPAGE=""
