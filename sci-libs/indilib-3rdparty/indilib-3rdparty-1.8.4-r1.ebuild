@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils eutils udev
+inherit cmake-utils udev
 
 DESCRIPTION="INDI driver for the ZWO ASI Cameras"
 HOMEPAGE="http://www.indilib.org/"

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils cmake pam xdg-utils java-pkg-2 java-ant-2 pax-utils prefix qmake-utils vcs-clean
+inherit cmake pam xdg-utils java-pkg-2 java-ant-2 pax-utils prefix qmake-utils vcs-clean
 
 # TODO
 # * use dict from tree, linguas
