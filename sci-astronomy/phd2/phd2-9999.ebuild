@@ -37,6 +37,7 @@ DEPEND="
 	virtual/libusb
 	>=dev-cpp/eigen-3.2.91:3
 	dev-cpp/gtest
+	media-libs/opencv
 "
 RDEPEND="${DEPEND}"
 BDEPEND=""
