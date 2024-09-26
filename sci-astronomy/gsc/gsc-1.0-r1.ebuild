@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils
+inherit cmake
 
 DESCRIPTION="General Star Catalog (needed for INDI CCD simulator)"
 HOMEPAGE=""
