@@ -1,5 +1,5 @@
---- phd2-9999/thirdparty/thirdparty.cmake.orig	2024-10-02 15:28:29.259223053 +0200
-+++ phd2-9999/thirdparty/thirdparty.cmake	2024-10-02 15:29:56.743386402 +0200
+--- phd2-9999/thirdparty/thirdparty.cmake.orig	2024-10-02 15:37:25.373636639 +0200
++++ phd2-9999/thirdparty/thirdparty.cmake	2024-10-02 15:38:04.599922449 +0200
 @@ -715,21 +715,6 @@
    )
  endif()
@@ -70,16 +70,28 @@
               PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/linux/${toupcam_arch})
        if(NOT toupcam)
          message(FATAL_ERROR "Cannot find the toupcam drivers")
-@@ -1031,7 +1019,7 @@
+@@ -1031,20 +1019,7 @@
        message(STATUS "Found toupcam lib ${toupcam}")
        add_definitions(-DHAVE_TOUPTEK_CAMERA=1)
        set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${toupcam})
 -      set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${toupcam})
-+      endif()
+-
+-      find_library(ogmacam
+-             NAMES ogmacam
+-             NO_DEFAULT_PATHS
+-             NO_CMAKE_SYSTEM_PATH
+-             PATHS ${ogmacamsdk_SOURCE_DIR}/linux/${toupcam_arch})
+-      if(NOT ogmacam)
+-        message(FATAL_ERROR "Cannot find the ogmacam drivers")
+       endif()
+-      message(STATUS "Found ogmacam lib ${ogmacam}")
+-      add_definitions(-DHAVE_OGMA_CAMERA=1)
+-      set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${ogmacam})
+-      set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${ogmacam})
  
-       find_library(ogmacam
-              NAMES ogmacam
-@@ -1059,19 +1047,21 @@
+       find_library(SVBCameraSDK
+             NAMES SVBCameraSDK
+@@ -1059,19 +1034,21 @@
        set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${SVBCameraSDK})
        set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${SVBCameraSDK})
  
@@ -102,7 +114,7 @@
      endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
  
      find_program(LSB_RELEASE_EXEC lsb_release)
-@@ -1104,6 +1094,7 @@
+@@ -1104,6 +1081,7 @@
        ${libopenssag_dir}/openssag.h
        )
      add_library(OpenSSAG ${libOPENSSAG_SRC})
@@ -110,7 +122,7 @@
      target_include_directories(OpenSSAG PRIVATE ${thirdparty_dir}/${LIBOPENSSAG}/src)
      add_definitions(-DHAVE_OPENSSAG_CAMERA=1)
      set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} OpenSSAG)
-@@ -1114,7 +1105,9 @@
+@@ -1114,7 +1092,9 @@
    # math library is needed, and should be one of the last things to link to here
    find_library(mathlib NAMES m)
    set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${mathlib})
