@@ -1,6 +1,6 @@
---- phd2-9999/thirdparty/thirdparty.cmake.orig	2024-10-02 15:37:25.373636639 +0200
-+++ phd2-9999/thirdparty/thirdparty.cmake	2024-10-02 15:38:04.599922449 +0200
-@@ -715,21 +715,6 @@
+--- phd2-9999/thirdparty/thirdparty.cmake.orig	2025-07-17 16:08:29.996318337 +0200
++++ phd2-9999/thirdparty/thirdparty.cmake	2025-07-17 16:10:46.291874455 +0200
+@@ -594,21 +594,6 @@
    )
  endif()
  
@@ -22,7 +22,7 @@
  # Various camera libraries
  if(WIN32)
    # Video for Windows, directshow and windows media
-@@ -834,12 +819,11 @@
+@@ -729,14 +714,12 @@
    add_definitions(-DHAVE_SBIG_CAMERA=1)
    add_definitions("-DTARGET=7")
    message(STATUS "Finding SBIG Univeral Drivers on system")
@@ -33,12 +33,14 @@
 +  find_library(SBIG_LIBRARIES NAMES sbig)
    include_directories(${SBIG_INCLUDE_DIR})
  
--  set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} SBIG sbigudrv)
-+  set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} sbig)
+   list(APPEND PHD_LINK_EXTERNAL
+-    SBIG
+-    sbigudrv
++    sbig
+   )
  
  endif()
- 
-@@ -1000,14 +984,17 @@
+@@ -910,19 +893,22 @@
        message(FATAL_ERROR "unknown system architecture")
      endif()
  
@@ -56,10 +58,16 @@
        find_library(asiCamera2
               NAMES ASICamera2
               NO_DEFAULT_PATHS
-@@ -1019,11 +1006,12 @@
-       message(STATUS "Found ASICamera2 lib ${asiCamera2}")
+              PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/zwolibs/linux/${zwoarch})
+-
++      
+       if(NOT asiCamera2)
+         message(FATAL_ERROR "Cannot find the asiCamera2 drivers")
+       endif()
+@@ -930,11 +916,12 @@
+       include_directories(${PHD_PROJECT_ROOT_DIR}/cameras/zwolibs/include)
        add_definitions(-DHAVE_ZWO_CAMERA=1)
-       set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${asiCamera2})
+       list(APPEND PHD_LINK_EXTERNAL ${asiCamera2})
 +      endif()
  
 +      if(USE_TOUPCAM)
@@ -70,11 +78,11 @@
               PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/linux/${toupcam_arch})
        if(NOT toupcam)
          message(FATAL_ERROR "Cannot find the toupcam drivers")
-@@ -1031,20 +1019,7 @@
-       message(STATUS "Found toupcam lib ${toupcam}")
+@@ -943,21 +930,8 @@
+       include_directories(${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/include)
        add_definitions(-DHAVE_TOUPTEK_CAMERA=1)
-       set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${toupcam})
--      set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${toupcam})
+       list(APPEND PHD_LINK_EXTERNAL ${toupcam})
+-      list(APPEND PHD_INSTALL_LIBS ${toupcam})
 -
 -      find_library(ogmacam
 -             NAMES ogmacam
@@ -83,17 +91,20 @@
 -             PATHS ${ogmacamsdk_SOURCE_DIR}/linux/${toupcam_arch})
 -      if(NOT ogmacam)
 -        message(FATAL_ERROR "Cannot find the ogmacam drivers")
-       endif()
+-      endif()
 -      message(STATUS "Found ogmacam lib ${ogmacam}")
 -      add_definitions(-DHAVE_OGMA_CAMERA=1)
--      set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${ogmacam})
--      set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${ogmacam})
- 
+-      list(APPEND PHD_LINK_EXTERNAL ${ogmacam})
+-      list(APPEND PHD_INSTALL_LIBS ${ogmacam})
+-
++      endif()
++      
        find_library(SVBCameraSDK
              NAMES SVBCameraSDK
-@@ -1059,19 +1034,21 @@
-       set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${SVBCameraSDK})
-       set(PHD_INSTALL_LIBS ${PHD_INSTALL_LIBS} ${SVBCameraSDK})
+             NO_DEFAULT_PATHS
+@@ -970,19 +944,21 @@
+       list(APPEND PHD_LINK_EXTERNAL ${SVBCameraSDK})
+       list(APPEND PHD_INSTALL_LIBS ${SVBCameraSDK})
  
 +      if(USE_QHY)
        if(IS_DIRECTORY ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
@@ -108,25 +119,24 @@
          if(NOT qhylib)
            message(FATAL_ERROR "Cannot find the qhy SDK libs")
          endif()
-         set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${qhylib})
+         list(APPEND PHD_LINK_EXTERNAL ${qhylib})
        endif()
 +      endif()
-     endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
  
-     find_program(LSB_RELEASE_EXEC lsb_release)
-@@ -1104,6 +1081,7 @@
+       find_library( playerone
+                     NAMES PlayerOneCamera
+@@ -1032,6 +1008,7 @@
        ${libopenssag_dir}/openssag.h
-       )
+     )
      add_library(OpenSSAG ${libOPENSSAG_SRC})
 +    target_link_libraries(OpenSSAG)
      target_include_directories(OpenSSAG PRIVATE ${thirdparty_dir}/${LIBOPENSSAG}/src)
      add_definitions(-DHAVE_OPENSSAG_CAMERA=1)
-     set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} OpenSSAG)
-@@ -1114,7 +1092,9 @@
-   # math library is needed, and should be one of the last things to link to here
+     list(APPEND PHD_LINK_EXTERNAL OpenSSAG)
+@@ -1043,6 +1020,9 @@
    find_library(mathlib NAMES m)
-   set(PHD_LINK_EXTERNAL ${PHD_LINK_EXTERNAL} ${mathlib})
--
+   list(APPEND PHD_LINK_EXTERNAL ${mathlib})
+ 
 +  if(USE_OPENSSAG)
 +    add_definitions(-DOPENSSAG=1)
 +  endif()
