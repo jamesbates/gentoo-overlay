@@ -25,7 +25,7 @@ DEPEND="
 	sys-libs/zlib
 	sci-libs/libnova
 	virtual/libusb
-	x11-libs/wxGTK:3.0
+	x11-libs/wxGTK
 	net-misc/curl
 	indilib_drivers_asi? ( sci-libs/libasi )
 	indilib_drivers_toupbase? ( sci-libs/libtoupbase )
