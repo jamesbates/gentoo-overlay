@@ -7,7 +7,7 @@ inherit cmake
 
 DESCRIPTION="General Star Catalog (needed for INDI CCD simulator)"
 HOMEPAGE=""
-SRC_URI="https://github.com/jamesbates/gentoo-overlay/raw/master/sci-astronomy/${PN}/files/gsc_${PV}.orig.tar.gz"
+SRC_URI="https://github.com/ikarustechnologies/gsc/archive/refs/tags/1.0.1.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0"
