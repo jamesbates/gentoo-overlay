@@ -1,6 +1,6 @@
---- phd2-9999/thirdparty/thirdparty.cmake.orig	2025-07-17 16:08:29.996318337 +0200
-+++ phd2-9999/thirdparty/thirdparty.cmake	2025-07-17 16:10:46.291874455 +0200
-@@ -594,21 +594,6 @@
+--- phd2-2.6.14/thirdparty/thirdparty.cmake.orig	2026-04-03 10:00:59.993986948 +0200
++++ phd2-2.6.14/thirdparty/thirdparty.cmake	2026-04-03 10:12:11.683367804 +0200
+@@ -606,21 +606,6 @@
    )
  endif()
  
@@ -14,15 +14,15 @@
 -  FetchContent_MakeAvailable(OGMAcamSDK)
 -  include_directories(${ogmacamsdk_SOURCE_DIR}/inc)
 -  if (WIN32)
--    list(APPEND PHD_LINK_EXTERNAL ${ogmacamsdk_SOURCE_DIR}/win/x86/ogmacam.lib)
--    list(APPEND PHD_COPY_EXTERNAL_ALL ${ogmacamsdk_SOURCE_DIR}/win/x86/ogmacam.dll)
+-    list(APPEND PHD_LINK_EXTERNAL ${ogmacamsdk_SOURCE_DIR}/win/${WINDOWS_ARCH}/ogmacam.lib)
+-    list(APPEND PHD_COPY_EXTERNAL_ALL ${ogmacamsdk_SOURCE_DIR}/win/${WINDOWS_ARCH}/ogmacam.dll)
 -  endif()
 -endif()
 -
  # Various camera libraries
  if(WIN32)
    # Video for Windows, directshow and windows media
-@@ -729,14 +714,12 @@
+@@ -896,14 +881,12 @@
    add_definitions(-DHAVE_SBIG_CAMERA=1)
    add_definitions("-DTARGET=7")
    message(STATUS "Finding SBIG Univeral Drivers on system")
@@ -40,17 +40,7 @@
    )
  
  endif()
-@@ -910,19 +893,22 @@
-       message(FATAL_ERROR "unknown system architecture")
-     endif()
- 
-+    if(USE_ZWO)
-     find_path(ZWO_INCLUDE_DIR ASICamera2.h
-       NO_DEFAULT_PATHS
-       PATHS ${PHD_PROJECT_ROOT_DIR}/cameras
-     )
-+    endif()
- 
+@@ -1082,6 +1065,7 @@
      # The binary libraries below do not support FreeBSD, ignore them
      # when building for FreeBSD.
      if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
@@ -58,13 +48,7 @@
        find_library(asiCamera2
               NAMES ASICamera2
               NO_DEFAULT_PATHS
-              PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/zwolibs/linux/${zwoarch})
--
-+      
-       if(NOT asiCamera2)
-         message(FATAL_ERROR "Cannot find the asiCamera2 drivers")
-       endif()
-@@ -930,11 +916,12 @@
+@@ -1094,11 +1078,12 @@
        include_directories(${PHD_PROJECT_ROOT_DIR}/cameras/zwolibs/include)
        add_definitions(-DHAVE_ZWO_CAMERA=1)
        list(APPEND PHD_LINK_EXTERNAL ${asiCamera2})
@@ -78,7 +62,7 @@
               PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/linux/${toupcam_arch})
        if(NOT toupcam)
          message(FATAL_ERROR "Cannot find the toupcam drivers")
-@@ -943,21 +930,8 @@
+@@ -1107,21 +1092,8 @@
        include_directories(${PHD_PROJECT_ROOT_DIR}/cameras/toupcam/include)
        add_definitions(-DHAVE_TOUPTEK_CAMERA=1)
        list(APPEND PHD_LINK_EXTERNAL ${toupcam})
@@ -102,19 +86,20 @@
        find_library(SVBCameraSDK
              NAMES SVBCameraSDK
              NO_DEFAULT_PATHS
-@@ -970,19 +944,21 @@
+@@ -1135,6 +1107,7 @@
        list(APPEND PHD_LINK_EXTERNAL ${SVBCameraSDK})
        list(APPEND PHD_INSTALL_LIBS ${SVBCameraSDK})
  
 +      if(USE_QHY)
        if(IS_DIRECTORY ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
          add_definitions(-DHAVE_QHY_CAMERA=1)
- 
+         include_directories(${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/include)
+@@ -1142,13 +1115,14 @@
          # be careful not to pick up any other qhy lib on the system
          find_library(qhylib
                 NAMES qhyccd
 -               NO_DEFAULT_PATH
-+               NO_DEFAULT_PATHS
++	       NO_DEFAULT_PATHS
                 PATHS ${PHD_PROJECT_ROOT_DIR}/cameras/qhyccdlibs/linux/${qhyarch})
          if(NOT qhylib)
            message(FATAL_ERROR "Cannot find the qhy SDK libs")
@@ -125,7 +110,7 @@
  
        find_library( playerone
                      NAMES PlayerOneCamera
-@@ -1032,6 +1008,7 @@
+@@ -1198,6 +1172,7 @@
        ${libopenssag_dir}/openssag.h
      )
      add_library(OpenSSAG ${libOPENSSAG_SRC})
@@ -133,7 +118,7 @@
      target_include_directories(OpenSSAG PRIVATE ${thirdparty_dir}/${LIBOPENSSAG}/src)
      add_definitions(-DHAVE_OPENSSAG_CAMERA=1)
      list(APPEND PHD_LINK_EXTERNAL OpenSSAG)
-@@ -1043,6 +1020,9 @@
+@@ -1209,6 +1184,9 @@
    find_library(mathlib NAMES m)
    list(APPEND PHD_LINK_EXTERNAL ${mathlib})
  

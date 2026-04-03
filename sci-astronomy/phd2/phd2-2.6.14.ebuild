@@ -1,7 +1,7 @@
 # Copyright 2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit cmake
 
@@ -9,13 +9,17 @@ DESCRIPTION="PHD2 Autoguiding software"
 HOMEPAGE=""
 SRC_URI="https://github.com/OpenPHDGuiding/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 PATCHES=(
-	"${FILESDIR}"/phd2-system-cameras-2.6.9.patch
+	"${FILESDIR}"/phd2-system-cameras-2.6.14.patch
+	"${FILESDIR}"/phd2-c++14.patch
 )
 
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-IUSE="indi_drivers_asicam indi_drivers_toupbase indi_drivers_qhy indi_drivers_sbig indi_drivers_ssag"
+
+IUSE_INDILIB_DRIVERS="asi toupbase qhy sbig ssag"
+use_indilib_drivers=$(printf ' indilib_drivers_%s' ${IUSE_INDILIB_DRIVERS})
+IUSE="${use_indilib_drivers}"
 
 DEPEND="
 	sys-libs/zlib
@@ -23,15 +27,16 @@ DEPEND="
 	virtual/libusb
 	x11-libs/wxGTK:3.0
 	net-misc/curl
-	indi_drivers_asicam? ( sci-libs/indilib-3rdparty-libs[indi_drivers_asicam] )
-	indi_drivers_toupbase? ( sci-libs/indilib-3rdparty-libs[indi_drivers_toupbase] )
-	indi_drivers_qhy? ( sci-libs/indilib-3rdparty-libs[indi_drivers_qhy] )
-	indi_drivers_sbig? ( sci-libs/indilib-3rdparty-libs[indi_drivers_sbig] )
+	indilib_drivers_asi? ( sci-libs/libasi )
+	indilib_drivers_toupbase? ( sci-libs/libtoupbase )
+	indilib_drivers_qhy? ( sci-libs/libqhy )
+	indilib_drivers_sbig? ( sci-libs/libsbig )
 	sci-libs/cfitsio
 	sci-libs/indilib
 	virtual/libusb
 	>=dev-cpp/eigen-3.2.91:3
 	dev-cpp/gtest
+	media-libs/opencv
 "
 RDEPEND="${DEPEND}"
 BDEPEND=""
@@ -44,11 +49,11 @@ src_configure() {
 		-DUSE_SYSTEM_EIGEN3=true
 		-DUSE_SYSTEM_GTEST=true
 		-DUSE_SYSTEM_LIBINDI=true
-		-DUSE_OPENSSAG=$(usex indi_drivers_ssag ON)
-		-DUSE_ZWO=$(usex indi_drivers_asicam ON)
-		-DUSE_TOUPCAM=$(usex indi_drivers_toupbase ON)
-		-DUSE_QHY=$(usex indi_drivers_qhy ON)
-		-DSBIG_SYSTEM=$(usex indi_drivers_sbig ON)
+		-DUSE_OPENSSAG=$(usex indilib_drivers_ssag ON)
+		-DUSE_ZWO=$(usex indilib_drivers_asi ON)
+		-DUSE_TOUPCAM=$(usex indilib_drivers_toupbase ON)
+		-DUSE_QHY=$(usex indilib_drivers_qhy ON)
+		-DSBIG_SYSTEM=$(usex indilib_drivers_sbig ON)
 	)
 
 	cmake_src_configure
