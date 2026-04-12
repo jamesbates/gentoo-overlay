@@ -4,7 +4,7 @@
 EAPI=8
 
 #CMAKE_MAKEFILE_GENERATOR=emake
-inherit cmake
+inherit cmake xdg-utils
 
 DESCRIPTION="DeepSkyStacker"
 HOMEPAGE=""
@@ -18,9 +18,17 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 
 DEPEND="
-	sys-libs/zlib
-	net-misc/curl
+	>=dev-qt/qtbase-6.10.0
+	>=dev-qt/qtsvg-6.10.0
+	>=dev-qt/qtcharts-6.10.0
 	sci-libs/cfitsio
+	dev-libs/boost
+	media-gfx/exiv2
+	dev-libs/expat
+	>=media-libs/tiff-4.7.1
+	media-libs/libraw
+	llvm-runtimes/openmp
+	sys-libs/zlib
 "
 RDEPEND="${DEPEND}"
 BDEPEND=""
@@ -36,9 +44,9 @@ src_configure() {
 	cmake_src_configure
 }
 
-#src_compile() {
-#
-#	emake -j1
-#}
+pkg_postinst() {
 
-
+	xdg_desktop_database_update
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+}

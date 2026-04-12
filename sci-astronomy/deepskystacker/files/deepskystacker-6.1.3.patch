@@ -1,10 +1,18 @@
-diff '--color=auto' -ur DSS-6.1.3.orig/CMakeLists.txt DSS-6.1.3/CMakeLists.txt
---- DSS-6.1.3.orig/CMakeLists.txt	2026-04-12 11:39:31.594362076 +0200
-+++ DSS-6.1.3/CMakeLists.txt	2026-04-12 11:40:04.319617796 +0200
-@@ -20,17 +20,6 @@
- message("CMAKE_PREFIX_PATH: " ${CMAKE_PREFIX_PATH})
- message("EV CMAKE_PREFIX_PATH: " $ENV{CMAKE_PREFIX_PATH})
+diff '--color=auto' -ru DSS-6.1.3.orig/CMakeLists.txt DSS-6.1.3/CMakeLists.txt
+--- DSS-6.1.3.orig/CMakeLists.txt	2026-04-13 00:42:10.627637052 +0200
++++ DSS-6.1.3/CMakeLists.txt	2026-04-13 00:42:26.235183724 +0200
+@@ -12,25 +12,6 @@
+ set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED TRUE CACHE BOOL "")
+ endif()
  
+-#
+-# Before setting the VCPKG toolchain up, add the CMAKE_PREFIX_PATH from the command line
+-# to the environment variable of the same name so it can be picked up for "inner builds"
+-#
+-set(ENV{CMAKE_PREFIX_PATH} ${CMAKE_PREFIX_PATH} $ENV{CMAKE_PREFIX_PATH})
+-message("CMAKE_PREFIX_PATH: " ${CMAKE_PREFIX_PATH})
+-message("EV CMAKE_PREFIX_PATH: " $ENV{CMAKE_PREFIX_PATH})
+-
 -set(CMAKE_TOOLCHAIN_FILE 
 -	"$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
 -	)
@@ -19,7 +27,16 @@ diff '--color=auto' -ur DSS-6.1.3.orig/CMakeLists.txt DSS-6.1.3/CMakeLists.txt
  # Require C++23 and enable extensions for all targets.
  set(CMAKE_CXX_STANDARD 23)
  set(CMAKE_CXX_STANDARD_REQUIRED ON)
-@@ -77,9 +66,8 @@
+@@ -68,18 +49,12 @@
+ message ("CMAKE_INSTALL_PREFIX: " ${CMAKE_INSTALL_PREFIX})
+ file (MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX})
+ 
+-set(CMAKE_INSTALL_BINDIR "." CACHE STRING "" FORCE)
+-set(CMAKE_INSTALL_LIBDIR "." CACHE STRING "" FORCE)
+-set(CMAKE_INSTALL_LIBEXECDIR "." CACHE STRING "" FORCE)
+-set(CMAKE_INSTALL_PLUGINSDIR "." CACHE STRING "" FORCE)
+-
+ find_package(Qt6 6.10.0 REQUIRED COMPONENTS Core Gui Widgets Network Charts DBus OpenGLWidgets Concurrent LinguistTools Svg PrintSupport)
  
  #set(CMAKE_FIND_DEBUG_MODE 1)
  find_package(cfitsio REQUIRED)
@@ -30,7 +47,7 @@ diff '--color=auto' -ur DSS-6.1.3.orig/CMakeLists.txt DSS-6.1.3/CMakeLists.txt
  if (APPLE)
  find_package(boost_atomic CONFIG REQUIRED)	
  find_package(Iconv REQUIRED)
-@@ -88,8 +76,8 @@
+@@ -88,8 +63,8 @@
  find_package(exiv2 CONFIG REQUIRED)
  find_package(expat CONFIG REQUIRED)
  find_package(TIFF 4.7.1 REQUIRED)
@@ -41,17 +58,36 @@ diff '--color=auto' -ur DSS-6.1.3.orig/CMakeLists.txt DSS-6.1.3/CMakeLists.txt
  if(NOT WIN32)
  find_package(OpenMP REQUIRED)
  find_package (Threads REQUIRED)
-@@ -141,6 +129,4 @@
+@@ -141,6 +116,4 @@
  #
  add_subdirectory(DeepSkyStackerCL)
  add_subdirectory(DeepSkyStacker)
 -add_subdirectory(DeepSkyStackerLive)
 -add_subdirectory(DeepSkyStackerTest)
  
-diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt DSS-6.1.3/DeepSkyStacker/CMakeLists.txt
---- DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt	2026-04-12 11:39:31.596376442 +0200
-+++ DSS-6.1.3/DeepSkyStacker/CMakeLists.txt	2026-04-12 12:05:58.378466420 +0200
-@@ -515,7 +515,7 @@
+diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt DSS-6.1.3/DeepSkyStacker/CMakeLists.txt
+--- DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt	2026-04-13 00:42:10.630074250 +0200
++++ DSS-6.1.3/DeepSkyStacker/CMakeLists.txt	2026-04-13 00:42:26.235585993 +0200
+@@ -373,11 +373,18 @@
+     TS_FILE_DIR i18n
+     PLURALS_TS_FILE i18n/${PROJECT_NAME}_en.ts
+     PLURALS_TS_FILE i18n/${PROJECT_NAME}_en_GB.ts
++    QM_FILES_OUTPUT_VARIABLE qm_files
+     )
+ qt_add_resources(ALL_FILES ${Qt_Resource_Files})
+ 
+ qt_add_executable(DeepSkyStacker ${ALL_FILES})
+ 
++qt_add_resources(${PROJECT_NAME} translations_resources
++    PREFIX "/i18n"
++    BASE ${CMAKE_CURRENT_BINARY_DIR}
++    FILES ${qm_files}
++)
++
+ if(APPLE)
+     set_target_properties(DeepSkyStacker PROPERTIES
+         MACOSX_BUNDLE ON
+@@ -515,7 +522,7 @@
  target_link_libraries(${PROJECT_NAME} PRIVATE Boost::container)
  target_link_libraries(${PROJECT_NAME} PRIVATE Exiv2::exiv2lib)
  target_link_libraries(${PROJECT_NAME} PRIVATE expat::expat)
@@ -60,7 +96,7 @@ diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt DSS-6.1.3/D
  target_link_libraries(${PROJECT_NAME} PRIVATE CFITSIO::cfitsio)
  target_link_libraries(${PROJECT_NAME} PRIVATE TIFF::TIFF)
  target_link_libraries(${PROJECT_NAME} PRIVATE ZLIB::ZLIB)
-@@ -572,31 +572,18 @@
+@@ -572,31 +579,16 @@
      )
  endif()
  if(LINUX)
@@ -89,25 +125,69 @@ diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt DSS-6.1.3/D
 -        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/Help
 -	    COMMAND ${CMAKE_COMMAND} -E copy -t ${CMAKE_INSTALL_PREFIX}/Help ${Help_Files} 
 -    )
-+    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
++    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 +    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/Icon/DeepSkyStacker.icns
-+            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/ )
++	    DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/ )
 +    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/Icon/DSS_filelist64x64.png
-+            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/pixmaps/ )
++	    DESTINATION ${CMAKE_INSTALL_DATADIR}/pixmaps/ )
 +    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/DeepSkyStacker.desktop
-+            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications/ )
-+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/om.github.deepskystacker-x-text-dssfilelist.xml
-+            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/mime/packages/ )
-+
-+#        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/Help
-+#	    COMMAND ${CMAKE_COMMAND} -E copy -t ${CMAKE_INSTALL_PREFIX}/Help ${Help_Files} 
++	    DESTINATION ${CMAKE_INSTALL_DATADIR}/applications/ )
++    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/com.github.deepskystacker-x-text-dssfilelist.xml
++	    DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages/ )
++    install(FILES ${Help_Files} DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/Help )
  endif()
  if(WIN32)
      add_custom_command(TARGET DeepSkyStacker
-diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt DSS-6.1.3/DeepSkyStackerCL/CMakeLists.txt
---- DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt	2026-04-12 11:39:31.622736387 +0200
-+++ DSS-6.1.3/DeepSkyStackerCL/CMakeLists.txt	2026-04-12 12:06:39.245989038 +0200
-@@ -237,7 +237,7 @@
+@@ -650,22 +642,12 @@
+          DEPLOY_TOOL_OPTIONS ${deploy_tool_options_arg}
+      )"
+      )
+-else()
+-    qt_generate_deploy_app_script(
+-        TARGET ${PROJECT_NAME}
+-        OUTPUT_SCRIPT deploy_script
+-        DEPLOY_TOOL_OPTIONS ${deploy_tool_options_arg}
+-    )
+ endif()
+ 
+ if(APPLE)
+ install (CODE "execute_process(COMMAND \"$ENV{HOME}/.unlock_keychain\")")
+ endif()
+ 
+-install (SCRIPT ${deploy_script})
+-install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .)
+-
+-#[=[
+ 
+ if(WIN32)
+ ################################################################################
+@@ -688,5 +670,4 @@
+        
+     )
+ endif()
+-]=]
+ 
+diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt DSS-6.1.3/DeepSkyStackerCL/CMakeLists.txt
+--- DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt	2026-04-13 00:42:10.650844872 +0200
++++ DSS-6.1.3/DeepSkyStackerCL/CMakeLists.txt	2026-04-13 00:44:42.502467307 +0200
+@@ -68,9 +68,16 @@
+     TS_FILE_DIR i18n
+     PLURALS_TS_FILE i18n/${PROJECT_NAME}_en.ts
+     PLURALS_TS_FILE i18n/${PROJECT_NAME}_en_GB.ts
++    QM_FILES_OUTPUT_VARIABLE qm_files
+     )
+ qt_add_executable(DeepSkyStackerCL ${ALL_FILES})
+ 
++qt_add_resources(${PROJECT_NAME} translations_resources
++    PREFIX "/i18"
++    BASE ${CMAKE_CURRENT_BINARY_DIR}
++    FILES ${qm_files}
++)
++
+ set_target_properties(DeepSkyStackerCL PROPERTIES
+     INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
+ )
+@@ -237,7 +244,7 @@
  target_link_libraries(${PROJECT_NAME} PRIVATE Exiv2::exiv2lib)
  target_link_libraries(${PROJECT_NAME} PRIVATE expat::expat)
  target_link_libraries(${PROJECT_NAME} PRIVATE CFITSIO::cfitsio)
@@ -116,54 +196,25 @@ diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt DSS-6.1.3
  target_link_libraries(${PROJECT_NAME} PRIVATE TIFF::TIFF)
  target_link_libraries(${PROJECT_NAME} PRIVATE ZLIB::ZLIB)
  if(NOT WIN32)
-@@ -281,43 +281,5 @@
- # app bundle. The DSS app bundle *is* deployed using the qt_deploy_app_script
- #
- if(NOT APPLE)
--    if (NOT LINUX)
--        set (deploy_tool_options_arg "")
--        if(APPLE)
--            set(deploy_tool_options_arg "${deploy_tool_options_arg} -hardened-runtime -no-strip")
--            set(deploy_tool_options_arg "${deploy_tool_options_arg} -codesign=Developer ID Application: David Partridge (VH8AYT3C7Y)")
--        elseif(WIN32)
--        set(deploy_tool_options_arg "${deploy_tool_options_arg} --compiler-runtime --pdb")
--        set(deploy_tool_options_arg "${deploy_tool_options_arg} --dir . --plugindir plugins")
--        endif()
--
--        # Generate a deployment script to be executed at install time
--        # App bundles on macOS have an .app suffix
--        if(APPLE)
--            set(executable_path "${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_FILE_NAME:DeepSkyStackerCL>.app")
--        else()
--            message ("Target filename:"  $<TARGET_FILE_NAME:DeepSkyStackerCL>)
--            set(executable_path "${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_FILE_NAME:DeepSkyStackerCL>")
--        endif()
--
--        message ("executable_path: " ${executable_path})
--        message ("deploy tools options arg: " ${deploy_tool_options_arg})
--         qt_generate_deploy_script(
--             TARGET DeepSkyStackerCL
--             OUTPUT_SCRIPT deploy_script
--             CONTENT "
--         qt_deploy_runtime_dependencies(
--             EXECUTABLE \"${executable_path}\"
--             DEPLOY_TOOL_OPTIONS ${deploy_tool_options_arg}
--         )"
--         )
--    else()
+@@ -311,13 +318,8 @@
+              DEPLOY_TOOL_OPTIONS ${deploy_tool_options_arg}
+          )"
+          )
++        install (SCRIPT ${deploy_script})
+     else()
 -    qt_generate_deploy_app_script(
 -        TARGET ${PROJECT_NAME}
 -        OUTPUT_SCRIPT deploy_script
 -        DEPLOY_TOOL_OPTIONS ${deploy_tool_options_arg}
 -    )
--    endif()
++        install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+     endif()
 -    install (SCRIPT ${deploy_script})
 -    install (TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .)
-+	install (TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
  endif()
-diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt DSS-6.1.3/DeepSkyStackerKernel/CMakeLists.txt
---- DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt	2026-04-12 11:39:31.624064505 +0200
-+++ DSS-6.1.3/DeepSkyStackerKernel/CMakeLists.txt	2026-04-12 11:40:04.321304147 +0200
+diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt DSS-6.1.3/DeepSkyStackerKernel/CMakeLists.txt
+--- DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt	2026-04-13 00:42:10.651885012 +0200
++++ DSS-6.1.3/DeepSkyStackerKernel/CMakeLists.txt	2026-04-13 00:42:26.235968837 +0200
 @@ -377,7 +377,7 @@
  target_link_libraries(${PROJECT_NAME} PRIVATE Boost::container)
  target_link_libraries(${PROJECT_NAME} PRIVATE Exiv2::exiv2lib)
@@ -173,9 +224,9 @@ diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt DSS-6
  target_link_libraries(${PROJECT_NAME} PRIVATE TIFF::TIFF)
  target_link_libraries(${PROJECT_NAME} PRIVATE ZLIB::ZLIB)
  target_link_libraries(${PROJECT_NAME} PRIVATE DeepSkyStackerAVX)
-diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStackerKernel/StackingEngine.cpp DSS-6.1.3/DeepSkyStackerKernel/StackingEngine.cpp
---- DSS-6.1.3.orig/DeepSkyStackerKernel/StackingEngine.cpp	2026-04-12 11:39:31.626342673 +0200
-+++ DSS-6.1.3/DeepSkyStackerKernel/StackingEngine.cpp	2026-04-12 11:40:04.321701325 +0200
+diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStackerKernel/StackingEngine.cpp DSS-6.1.3/DeepSkyStackerKernel/StackingEngine.cpp
+--- DSS-6.1.3.orig/DeepSkyStackerKernel/StackingEngine.cpp	2026-04-13 00:42:10.653616241 +0200
++++ DSS-6.1.3/DeepSkyStackerKernel/StackingEngine.cpp	2026-04-13 00:42:26.236250247 +0200
 @@ -741,17 +741,6 @@
  		return !stop;
  	}
