@@ -1,6 +1,6 @@
-diff '--color=auto' -ru DSS-6.1.3.orig/CMakeLists.txt DSS-6.1.3/CMakeLists.txt
---- DSS-6.1.3.orig/CMakeLists.txt	2026-04-13 00:42:10.627637052 +0200
-+++ DSS-6.1.3/CMakeLists.txt	2026-04-13 00:42:26.235183724 +0200
+diff '--color=auto' -ur DSS-6.1.3.orig/CMakeLists.txt DSS-6.1.3/CMakeLists.txt
+--- DSS-6.1.3.orig/CMakeLists.txt	2026-04-13 10:01:14.324169507 +0200
++++ DSS-6.1.3/CMakeLists.txt	2026-04-13 10:01:53.334711612 +0200
 @@ -12,25 +12,6 @@
  set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED TRUE CACHE BOOL "")
  endif()
@@ -65,9 +65,9 @@ diff '--color=auto' -ru DSS-6.1.3.orig/CMakeLists.txt DSS-6.1.3/CMakeLists.txt
 -add_subdirectory(DeepSkyStackerLive)
 -add_subdirectory(DeepSkyStackerTest)
  
-diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt DSS-6.1.3/DeepSkyStacker/CMakeLists.txt
---- DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt	2026-04-13 00:42:10.630074250 +0200
-+++ DSS-6.1.3/DeepSkyStacker/CMakeLists.txt	2026-04-13 00:42:26.235585993 +0200
+diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt DSS-6.1.3/DeepSkyStacker/CMakeLists.txt
+--- DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt	2026-04-13 10:01:14.326054179 +0200
++++ DSS-6.1.3/DeepSkyStacker/CMakeLists.txt	2026-04-13 10:01:53.335061512 +0200
 @@ -373,11 +373,18 @@
      TS_FILE_DIR i18n
      PLURALS_TS_FILE i18n/${PROJECT_NAME}_en.ts
@@ -167,9 +167,25 @@ diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStacker/CMakeLists.txt DSS-6.1.3/D
  endif()
 -]=]
  
-diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt DSS-6.1.3/DeepSkyStackerCL/CMakeLists.txt
---- DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt	2026-04-13 00:42:10.650844872 +0200
-+++ DSS-6.1.3/DeepSkyStackerCL/CMakeLists.txt	2026-04-13 00:44:42.502467307 +0200
+diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStacker/DeepSkyStacker.desktop DSS-6.1.3/DeepSkyStacker/DeepSkyStacker.desktop
+--- DSS-6.1.3.orig/DeepSkyStacker/DeepSkyStacker.desktop	2026-04-13 10:01:14.326691181 +0200
++++ DSS-6.1.3/DeepSkyStacker/DeepSkyStacker.desktop	2026-04-13 10:02:58.894781867 +0200
+@@ -1,8 +1,8 @@
+ [Desktop Entry]
+ Type=Application
+-Exec=/opt/DeepSkyStacker/DeepSkyStacker
++Exec=DeepSkyStacker
+ Name=DeepSkyStacker
+ GenericName=The preferred application for stacking astronomical images
+ MimeType=text/dssfilelist
+-Icon=/opt/DeepSkyStacker/DeepSkyStacker.icns
+-Categories=Astronomy;Science
+\ No newline at end of file
++Icon=DeepSkyStacker.icns
++Categories=Astronomy;Science
+diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt DSS-6.1.3/DeepSkyStackerCL/CMakeLists.txt
+--- DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt	2026-04-13 10:01:14.350046307 +0200
++++ DSS-6.1.3/DeepSkyStackerCL/CMakeLists.txt	2026-04-13 10:01:53.335458073 +0200
 @@ -68,9 +68,16 @@
      TS_FILE_DIR i18n
      PLURALS_TS_FILE i18n/${PROJECT_NAME}_en.ts
@@ -212,9 +228,9 @@ diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStackerCL/CMakeLists.txt DSS-6.1.3
 -    install (SCRIPT ${deploy_script})
 -    install (TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .)
  endif()
-diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt DSS-6.1.3/DeepSkyStackerKernel/CMakeLists.txt
---- DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt	2026-04-13 00:42:10.651885012 +0200
-+++ DSS-6.1.3/DeepSkyStackerKernel/CMakeLists.txt	2026-04-13 00:42:26.235968837 +0200
+diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt DSS-6.1.3/DeepSkyStackerKernel/CMakeLists.txt
+--- DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt	2026-04-13 10:01:14.351278188 +0200
++++ DSS-6.1.3/DeepSkyStackerKernel/CMakeLists.txt	2026-04-13 10:01:53.335789722 +0200
 @@ -377,7 +377,7 @@
  target_link_libraries(${PROJECT_NAME} PRIVATE Boost::container)
  target_link_libraries(${PROJECT_NAME} PRIVATE Exiv2::exiv2lib)
@@ -224,9 +240,9 @@ diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStackerKernel/CMakeLists.txt DSS-6
  target_link_libraries(${PROJECT_NAME} PRIVATE TIFF::TIFF)
  target_link_libraries(${PROJECT_NAME} PRIVATE ZLIB::ZLIB)
  target_link_libraries(${PROJECT_NAME} PRIVATE DeepSkyStackerAVX)
-diff '--color=auto' -ru DSS-6.1.3.orig/DeepSkyStackerKernel/StackingEngine.cpp DSS-6.1.3/DeepSkyStackerKernel/StackingEngine.cpp
---- DSS-6.1.3.orig/DeepSkyStackerKernel/StackingEngine.cpp	2026-04-13 00:42:10.653616241 +0200
-+++ DSS-6.1.3/DeepSkyStackerKernel/StackingEngine.cpp	2026-04-13 00:42:26.236250247 +0200
+diff '--color=auto' -ur DSS-6.1.3.orig/DeepSkyStackerKernel/StackingEngine.cpp DSS-6.1.3/DeepSkyStackerKernel/StackingEngine.cpp
+--- DSS-6.1.3.orig/DeepSkyStackerKernel/StackingEngine.cpp	2026-04-13 10:01:14.353462687 +0200
++++ DSS-6.1.3/DeepSkyStackerKernel/StackingEngine.cpp	2026-04-13 10:01:53.336357359 +0200
 @@ -741,17 +741,6 @@
  		return !stop;
  	}
